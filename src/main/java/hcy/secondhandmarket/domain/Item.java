@@ -35,7 +35,7 @@ public class Item extends BaseEntity{
     private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private emdArea sellingArea;
+    private EmdArea sellingArea;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;

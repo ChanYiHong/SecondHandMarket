@@ -10,13 +10,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @ToString(exclude = "siggArea")
-public class emdArea extends BaseEntity{
+public class EmdArea extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String areaCode;
 
     @Column(nullable = false)
