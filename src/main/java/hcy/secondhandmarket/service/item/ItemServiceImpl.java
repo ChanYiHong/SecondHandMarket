@@ -1,8 +1,8 @@
 package hcy.secondhandmarket.service.item;
 
 import hcy.secondhandmarket.domain.*;
-import hcy.secondhandmarket.dto.item.ItemResponseDto;
-import hcy.secondhandmarket.dto.item.ItemSaveDto;
+import hcy.secondhandmarket.dto.item.ItemResponseDTO;
+import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.repository.item.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ public class ItemServiceImpl implements ItemService{
 
     @Override
     @Transactional
-    public Long save(ItemSaveDto itemSaveDto) {
+    public Long save(ItemSaveDTO itemSaveDto) {
 
         log.info("Saving Item : {}", itemSaveDto);
 
@@ -30,9 +30,9 @@ public class ItemServiceImpl implements ItemService{
     }
 
     @Override
-    public ItemResponseDto getOne(Long itemId) {
+    public ItemResponseDTO getOne(Long itemId) {
         Object[] result = itemRepository.findItemById(itemId);
-        return entityToDto((Item) result[0], (Member) result[1], (Category) result[2], (EmdArea) result[3],
+        return entityToDTO((Item) result[0], (Member) result[1], (Category) result[2], (EmdArea) result[3],
                 (SiggArea) result[4], (SidoArea) result[5]);
     }
 }

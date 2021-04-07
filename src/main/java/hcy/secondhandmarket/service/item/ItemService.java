@@ -1,18 +1,18 @@
 package hcy.secondhandmarket.service.item;
 
 import hcy.secondhandmarket.domain.*;
-import hcy.secondhandmarket.dto.item.ItemResponseDto;
-import hcy.secondhandmarket.dto.item.ItemSaveDto;
+import hcy.secondhandmarket.dto.item.ItemResponseDTO;
+import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 
 public interface ItemService {
 
     // 상품 저장.
-    Long save(ItemSaveDto itemSaveDto);
+    Long save(ItemSaveDTO itemSaveDto);
 
     // 상품 단건 조회.
-    ItemResponseDto getOne(Long itemId);
+    ItemResponseDTO getOne(Long itemId);
 
-    default Item dtoToEntity(ItemSaveDto itemSaveDto) {
+    default Item dtoToEntity(ItemSaveDTO itemSaveDto) {
         Member member = Member.builder().email(itemSaveDto.getEmail()).build();
         EmdArea emdArea = EmdArea.builder().id(itemSaveDto.getSellingAreaId()).build();
         Category category = Category.builder().id(itemSaveDto.getCategoryId()).build();
@@ -28,9 +28,9 @@ public interface ItemService {
                 .build();
     }
 
-    default ItemResponseDto entityToDto(Item item, Member member, Category category,
+    default ItemResponseDTO entityToDTO(Item item, Member member, Category category,
                                         EmdArea emdArea, SiggArea siggArea, SidoArea sidoArea) {
-        return ItemResponseDto.builder()
+        return ItemResponseDTO.builder()
                 .email(member.getEmail())
                 .phoneNumber(member.getPhoneNumber())
                 .rating(member.getRating())

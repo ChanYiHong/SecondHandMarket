@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-public class ItemResponseDto {
+public class ItemResponseDTO {
 
     /** 사용자 정보. **/
     private String email; // 사용자 이메일.

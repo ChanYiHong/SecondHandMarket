@@ -1,7 +1,7 @@
 package hcy.secondhandmarket.service.item;
 
 import hcy.secondhandmarket.domain.*;
-import hcy.secondhandmarket.dto.item.ItemSaveDto;
+import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.repository.category.CategoryRepository;
 import hcy.secondhandmarket.repository.emdarea.EmdAreaRepository;
 import hcy.secondhandmarket.repository.item.ItemRepository;
@@ -17,7 +17,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ItemServiceTest {
@@ -60,7 +59,7 @@ class ItemServiceTest {
     @Transactional
     @Rollback
     public void saveItem() throws Exception {
-        ItemSaveDto itemDto = ItemSaveDto.builder()
+        ItemSaveDTO itemDto = ItemSaveDTO.builder()
                 .title("애웅이")
                 .price(1000000)
                 .categoryId(1L)
@@ -85,7 +84,7 @@ class ItemServiceTest {
     @Rollback
     public void findItemById() throws Exception {
 
-        ItemSaveDto itemDto = ItemSaveDto.builder()
+        ItemSaveDTO itemDto = ItemSaveDTO.builder()
                 .title("애웅이")
                 .price(1000000)
                 .categoryId(1L)

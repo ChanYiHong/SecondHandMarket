@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter @Setter
 @ToString
-public class ItemSaveDto {
+public class ItemSaveDTO {
 
     private String email; // 사용자 이메일.
     private String title; // 상품명.
