@@ -10,6 +10,6 @@ import java.util.List;
 public interface SiggAreaRepository extends JpaRepository<SiggArea, Long> {
 
     @Query("select sigg from SiggArea sigg left join sigg.sidoArea sido where sido.id = :id")
-    List<SiggArea> findAllBySidoId(@Param("name") Long id);
+    List<SiggArea> findAllBySidoId(@Param("id") Long id);
 
 }

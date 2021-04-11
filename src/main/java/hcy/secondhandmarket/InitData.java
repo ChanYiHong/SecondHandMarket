@@ -22,8 +22,8 @@ public class InitData {
 
     @PostConstruct
     public void init() {
-        initDataService.initCategory();
-        initDataService.initArea();
+//        initDataService.initCategory();
+//        initDataService.initArea();
     }
 
     @Component
