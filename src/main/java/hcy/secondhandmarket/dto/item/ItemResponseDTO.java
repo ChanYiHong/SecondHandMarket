@@ -1,7 +1,11 @@
 package hcy.secondhandmarket.dto.item;
 
 import hcy.secondhandmarket.domain.Status;
+import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,5 +34,9 @@ public class ItemResponseDTO {
     private int viewCount; // 조회수.
     private String description; // 상품 설명.
     private Status status; // 상품 상황. (새로움, 예약됨, 판매완료).
+
+    /** 상품 사진. **/
+    @Builder.Default
+    private List<ItemImageDTO> imageDTOList = new ArrayList<>();
 
 }

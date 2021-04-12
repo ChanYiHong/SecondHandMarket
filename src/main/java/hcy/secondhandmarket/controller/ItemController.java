@@ -1,14 +1,15 @@
 package hcy.secondhandmarket.controller;
 
 import hcy.secondhandmarket.dto.category.CategoryResponseDTO;
+import hcy.secondhandmarket.dto.item.ItemResponseDTO;
+import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.service.category.CategoryService;
 import hcy.secondhandmarket.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,6 +30,30 @@ public class ItemController {
         model.addAttribute("categories", categories);
 
         return "/items/new";
+    }
+
+    @PostMapping("/new")
+    public String saveItem(@ModelAttribute ItemSaveDTO itemSaveDTO) {
+
+        log.info("Item Save : {}", itemSaveDTO);
+
+        itemService.save(itemSaveDTO);
+
+        return "redirect:/";
+
+    }
+
+    @GetMapping("/{id}")
+    public String getItem(@PathVariable("id") Long id, Model model) {
+
+        log.info("Get Item Id : {}", id);
+
+        ItemResponseDTO result = itemService.getOne(id);
+
+        model.addAttribute("item", result);
+
+        return "/items/read";
+
     }
 
 }
