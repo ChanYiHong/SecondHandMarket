@@ -10,6 +10,7 @@ import lombok.*;
 @ToString
 public class SiggAreaResponseDTO {
 
+    private Long id;
     private String name;
 
 }

@@ -10,7 +10,7 @@ public interface SiggAreaService {
     List<SiggAreaResponseDTO> findAllBySidoId(Long sidoId);
 
     default SiggAreaResponseDTO entityToDTO(SiggArea siggArea) {
-        return SiggAreaResponseDTO.builder().name(siggArea.getName()).build();
+        return SiggAreaResponseDTO.builder().id(siggArea.getId()).name(siggArea.getName()).build();
     }
 
 }

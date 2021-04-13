@@ -23,7 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
         log.info("Find All Category");
 
         // 이름 순으로 정렬해서 가져옴.
-        List<Category> result = categoryRepository.findAll(Sort.by(Sort.Direction.ASC));
+        List<Category> result = categoryRepository.findAll();
+
+        log.info("Find All Complete {}", result);
 
         return result.stream().map(this::entityToDTO).collect(Collectors.toList());
     }

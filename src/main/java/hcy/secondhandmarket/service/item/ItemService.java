@@ -30,7 +30,7 @@ public interface ItemService {
 
         Item item = Item.builder()
                 .title(itemSaveDto.getTitle())
-                .sellPrice(itemSaveDto.getPrice())
+                .sellPrice(itemSaveDto.getSellPrice())
                 .description(itemSaveDto.getDescription())
                 .member(member)
                 .category(category)

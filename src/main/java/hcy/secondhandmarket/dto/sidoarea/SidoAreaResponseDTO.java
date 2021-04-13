@@ -10,6 +10,7 @@ import lombok.*;
 @ToString
 public class SidoAreaResponseDTO {
 
+    private Long id;
     private String name;
 
 }

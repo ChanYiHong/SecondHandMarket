@@ -10,7 +10,7 @@ public interface CategoryService {
     List<CategoryResponseDTO> findAll();
 
     default CategoryResponseDTO entityToDTO(Category category) {
-        return CategoryResponseDTO.builder().name(category.getName()).build();
+        return CategoryResponseDTO.builder().id(category.getId()).name(category.getName()).build();
     }
 
 }

@@ -10,7 +10,7 @@ public interface EmdAreaService {
     List<EmdAreaResponseDTO> findAllBySiggId(Long siggId);
 
     default EmdAreaResponseDTO entityToDTO(EmdArea emdArea) {
-        return EmdAreaResponseDTO.builder().name(emdArea.getName()).build();
+        return EmdAreaResponseDTO.builder().id(emdArea.getId()).name(emdArea.getName()).build();
     }
 
 }

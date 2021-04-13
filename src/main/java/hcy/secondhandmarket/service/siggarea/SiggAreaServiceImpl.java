@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SiggAreaServiceImpl implements SiggAreaService {
 
-    private SiggAreaRepository siggAreaRepository;
+    private final SiggAreaRepository siggAreaRepository;
 
     @Override
     public List<SiggAreaResponseDTO> findAllBySidoId(Long sidoId) {

@@ -10,7 +10,7 @@ public interface SidoAreaService {
     List<SidoAreaResponseDTO> findAll();
 
     default SidoAreaResponseDTO entityToDTO(SidoArea sidoArea) {
-        return SidoAreaResponseDTO.builder().name(sidoArea.getName()).build();
+        return SidoAreaResponseDTO.builder().id(sidoArea.getId()).name(sidoArea.getName()).build();
     }
 
 }

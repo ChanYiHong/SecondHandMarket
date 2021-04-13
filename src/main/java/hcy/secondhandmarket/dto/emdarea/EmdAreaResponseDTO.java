@@ -10,6 +10,7 @@ import lombok.*;
 @ToString
 public class EmdAreaResponseDTO {
 
+    private Long id;
     private String name;
 
 }
