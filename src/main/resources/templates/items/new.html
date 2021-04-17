@@ -71,7 +71,7 @@
 
                         <div class="col-md-5">
                             <label for="sido" class="form-label">시/도</label>
-                            <select id="sido" class="form-select">
+                            <select id="sido" class="form-select" required>
                         
                             </select>
                             <div class="invalid-feedback">
@@ -186,10 +186,12 @@
                     
                     var str = "";
                     var data = arr["data"];
+
+                    str += "<option value='' selected disabled hidden >선택해주세요.</option>"
                     
                     $.each(data, function(idx, sido) {
 
-                        str += "<option class='sidoOption' data-id=" + sido.id + ">" + sido.name + "</option>";
+                        str += "<option class='sidoOption' value=" + sido.id + ">" + sido.name + "</option>";
 
                     });
 
@@ -202,10 +204,12 @@
                     
                     var str = "";
                     var data = arr["data"];
+
+                    str += "<option value='' selected disabled hidden >선택해주세요.</option>"
                     
                     $.each(data, function(idx, sigg) {
 
-                        str += "<option class='siggOption' data-id=" + sigg.id + ">" + sigg.name + "</option>";
+                        str += "<option class='siggOption' value=" + sigg.id + ">" + sigg.name + "</option>";
 
                     });
 
@@ -218,10 +222,12 @@
                     
                     var str = "";
                     var data = arr["data"];
+
+                    str += "<option value='' selected disabled hidden >선택해주세요.</option>"
                     
                     $.each(data, function(idx, emd) {
 
-                        str += "<option class='emdOption' data-id=" + emd.id + ">" + emd.name + "</option>";
+                        str += "<option class='emdOption' value=" + emd.id + ">" + emd.name + "</option>";
 
                     });
 
@@ -229,28 +235,61 @@
 
                 });
 
-                $("#sido").on("click", ".sidoOption" ,function() {
-                    
-                    var sidoId = $(this).data("id");
+
+                // 시/도 선택 시 시군구 변하게.
+                $("#sido").on("change", function() {
+
+                    var sidoId = $(this).val();
+
+                    console.log("sidoId : " + sidoId);
 
                     $.getJSON("/sigg/"+sidoId, function(arr) {
                         
                         var data = arr["data"];
                         var str = "";
 
-                        siggSelect.html("");
+                        str += "<option value='' selected disabled hidden >선택해주세요.</option>"
 
-                        $.each(data, function(idx, emd) {
+                        console.log(data);
 
-                            str += "<option class='emdOption' data-id=" + emd.id + ">" + emd.name + "</option>";
+                        siggSelect.find("option").remove();
+
+                        $.each(data, function(idx, sigg) {
+
+                            str += "<option class='siggOption' value=" + sigg.id + ">" + sigg.name + "</option>";
 
                         });
 
-                        emdSelect.append(str);
+                        siggSelect.append(str);
 
                     })
 
                 });
+
+                $("#sigg").on("change", function() {
+                    
+                    var siggId = $(this).val();
+
+                    console.log("siggId : " + siggId);
+
+                    $.getJSON("/emd/" + siggId, function(arr) {
+
+                        var str = "";
+                        var data = arr["data"];
+
+                        emdSelect.html("");
+
+                        str += "<option value='' selected disabled hidden >선택해주세요.</option>";
+
+                        $.each(data, function(idx, emd) {
+                            str += "<option class='emdOption' value=" + emd.id + ">" + emd.name + "</option>";
+                        });
+
+                        emdSelect.append(str);
+
+                    });
+
+                })
 
             });
 
