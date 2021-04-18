@@ -27,7 +27,7 @@ public class Member extends BaseEntity{
     private String phoneNumber;
 
     private int rating;
-    private boolean isSocial;
+    private boolean fromSocial;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
