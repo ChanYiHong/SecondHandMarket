@@ -57,7 +57,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.formLogin().loginPage("/members/login"); // 인증, 인가에 문제시 로그인 화면 출력.
+        http.formLogin()  // 인증, 인가가 필요할 시 로그인 화면 출력.
+                .loginPage("/members/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/");
 
         http.csrf().disable(); // CSRF 공격 방지 토큰 발행 비활성화.
 

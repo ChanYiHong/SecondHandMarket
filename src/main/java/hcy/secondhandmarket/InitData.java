@@ -1,17 +1,16 @@
 package hcy.secondhandmarket;
 
-import hcy.secondhandmarket.domain.Category;
-import hcy.secondhandmarket.domain.EmdArea;
-import hcy.secondhandmarket.domain.SidoArea;
-import hcy.secondhandmarket.domain.SiggArea;
+import hcy.secondhandmarket.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
+import java.util.HashSet;
 
 @Component
 @Profile("local")
@@ -22,6 +21,7 @@ public class InitData {
 
     @PostConstruct
     public void init() {
+        initDataService.initMember();
         initDataService.initCategory();
         initDataService.initArea();
     }
@@ -30,7 +30,27 @@ public class InitData {
     static class InitDataService {
 
         @Autowired
+        private PasswordEncoder passwordEncoder;
+
+        @Autowired
         private EntityManager em;
+
+        @Transactional
+        public void initMember() {
+            Member member = new Member(
+                    "user1@hcy.com",
+                    passwordEncoder.encode("1234"),
+                    "홍찬의",
+                    "01099559135",
+                    5,
+                    false,
+                    new HashSet<>()
+            );
+
+            member.addMemberRole(MemberRole.USER);
+
+            em.persist(member);
+        }
 
         @Transactional
         public void initCategory() {

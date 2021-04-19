@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class ItemSaveDTO {
 
-    private String email; // 사용자 이메일.
+    //private String email; // 사용자 이메일.
     private String title; // 상품명.
     private Integer sellPrice; // 상품 가격.
     private String description; // 상품 설명.

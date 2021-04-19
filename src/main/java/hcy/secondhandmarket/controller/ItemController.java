@@ -4,6 +4,7 @@ import hcy.secondhandmarket.dto.category.CategoryResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.sidoarea.SidoAreaResponseDTO;
+import hcy.secondhandmarket.security.dto.MemberDTO;
 import hcy.secondhandmarket.service.category.CategoryService;
 import hcy.secondhandmarket.service.emdarea.EmdAreaService;
 import hcy.secondhandmarket.service.item.ItemService;
@@ -12,6 +13,7 @@ import hcy.secondhandmarket.service.siggarea.SiggAreaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,11 +43,11 @@ public class ItemController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/new")
-    public String saveItem(@ModelAttribute ItemSaveDTO itemSaveDTO) {
+    public String saveItem(@ModelAttribute ItemSaveDTO itemSaveDTO, @AuthenticationPrincipal MemberDTO memberDTO) {
 
         log.info("Item Save : {}", itemSaveDTO);
 
-        itemService.save(itemSaveDTO);
+        itemService.save(itemSaveDTO, memberDTO);
 
         return "redirect:/";
 

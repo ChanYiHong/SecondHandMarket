@@ -4,6 +4,10 @@
 
     <th:block th:fragment="content">
 
+        <div sec:authorize="isAuthenticated()">
+            어서오세요! <span sec:authentication="principal.name"></span>님!
+        </div>
+
         <h1>이거 나오나요??</h1>
 
         <h1>

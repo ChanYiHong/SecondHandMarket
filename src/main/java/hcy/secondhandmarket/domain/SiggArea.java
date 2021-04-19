@@ -20,7 +20,7 @@ public class SiggArea extends BaseEntity{
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private SidoArea sidoArea;
 
 }
