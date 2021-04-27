@@ -53,6 +53,14 @@ public class ItemController {
 
     }
 
+    @PreAuthorize("permitAll()")
+    @GetMapping
+    public String itemList(Model model) {
+        log.info("Get Item List");
+
+        return "/items/list";
+    }
+
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}")
     public String getItem(@PathVariable("id") Long id, Model model) {

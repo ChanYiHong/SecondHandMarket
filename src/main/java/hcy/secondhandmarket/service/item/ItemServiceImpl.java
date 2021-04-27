@@ -3,6 +3,8 @@ package hcy.secondhandmarket.service.item;
 import hcy.secondhandmarket.domain.*;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
+import hcy.secondhandmarket.dto.page.PageRequestDTO;
+import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.repository.category.CategoryRepository;
 import hcy.secondhandmarket.repository.emdarea.EmdAreaRepository;
 import hcy.secondhandmarket.repository.item.ItemRepository;
@@ -11,6 +13,8 @@ import hcy.secondhandmarket.repository.member.MemberRepository;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,17 +67,28 @@ public class ItemServiceImpl implements ItemService{
 
         List<ItemImage> itemImageList = (List<ItemImage>) entityMap.get("imgList");
 
-        itemImageList.forEach(itemImage -> {
-            itemImageRepository.save(itemImage);
-        });
+        if(itemImageList != null) {
+            itemImageList.forEach(itemImage -> {
+                itemImageRepository.save(itemImage);
+            });
+        }
 
         return item.getId();
     }
 
     @Override
     public ItemResponseDTO getOne(Long itemId) {
-        Object[] result = itemRepository.findItemById(itemId);
+        Object[] result = itemRepository.getItemById(itemId);
         return entityToDTO((Item) result[0], (Member) result[1], (Category) result[2], (List<ItemImage>) result[3],
                 (EmdArea) result[3], (SiggArea) result[4], (SidoArea) result[5]);
+    }
+
+    @Override
+    public PageResponseDTO<Object[], ItemResponseDTO> getList(PageRequestDTO pageRequestDTO) {
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        return null;
+
     }
 }

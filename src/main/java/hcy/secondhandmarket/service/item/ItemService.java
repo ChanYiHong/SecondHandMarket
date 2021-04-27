@@ -4,6 +4,8 @@ import hcy.secondhandmarket.domain.*;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
+import hcy.secondhandmarket.dto.page.PageRequestDTO;
+import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -20,6 +22,9 @@ public interface ItemService {
 
     // 상품 단건 조회.
     ItemResponseDTO getOne(Long itemId);
+
+    // 상품 리스트.
+    PageResponseDTO<Object[], ItemResponseDTO> getList(PageRequestDTO pageRequestDTO);
 
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {

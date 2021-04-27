@@ -33,7 +33,7 @@ class SiggAreaRepositoryTest {
         SiggArea gangnam = SiggArea.builder().name("강남구").sidoArea(seoul).build();
         siggAreaRepository.save(gangnam);
 
-        List<SiggArea> result = siggAreaRepository.findAllBySidoName(seoul.getName());
+        List<SiggArea> result = siggAreaRepository.findAllBySidoId(seoul.getId());
 
         for (SiggArea siggArea : result) {
             System.out.println(siggArea);
