@@ -3,6 +3,8 @@ package hcy.secondhandmarket.controller;
 import hcy.secondhandmarket.dto.category.CategoryResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
+import hcy.secondhandmarket.dto.page.PageRequestDTO;
+import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.dto.sidoarea.SidoAreaResponseDTO;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import hcy.secondhandmarket.service.category.CategoryService;
@@ -55,8 +57,12 @@ public class ItemController {
 
     @PreAuthorize("permitAll()")
     @GetMapping
-    public String itemList(Model model) {
+    public String itemList(@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
         log.info("Get Item List");
+
+        PageResponseDTO<Object[], ItemResponseDTO> items = itemService.getList(pageRequestDTO);
+
+        model.addAttribute("items", items);
 
         return "/items/list";
     }

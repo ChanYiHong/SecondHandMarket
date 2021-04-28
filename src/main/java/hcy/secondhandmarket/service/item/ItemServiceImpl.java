@@ -13,6 +13,7 @@ import hcy.secondhandmarket.repository.member.MemberRepository;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 @Service
 @RequiredArgsConstructor
@@ -88,7 +90,14 @@ public class ItemServiceImpl implements ItemService{
 
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
 
-        return null;
+        Page<Object[]> result = itemRepository.getItemList(pageable);
+
+        Function<Object[], ItemResponseDTO> fn = entity -> {
+            return entityToDTO((Item) entity[0], (Member) entity[1], (Category) entity[2], (List<ItemImage>) entity[3],
+                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
+        };
+
+        return new PageResponseDTO<>(fn, result);
 
     }
 }

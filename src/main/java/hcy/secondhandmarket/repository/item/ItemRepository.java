@@ -23,9 +23,9 @@ public interface ItemRepository extends JpaRepository<Item, Long>, ItemRepositor
 //    Object[] findItemById(@Param("itemId") Long itemId);
 
     // 상품 리스트.
-    @Query("select i, m, c, s, im from Item i left outer join i.member m left outer join i.category c left outer join i.sellingArea s " +
-            "left outer join ItemImage im on ItemImage.item = i group by i")
-    Page<Object[]> getListPage(Pageable pageable);
+//    @Query("select i, m, c, s, im from Item i left outer join i.member m left outer join i.category c left outer join i.sellingArea s " +
+//            "left outer join ItemImage im on ItemImage.item = i group by i")
+//    Page<Object[]> getListPage(Pageable pageable);
 
     // 상품 수정.
 

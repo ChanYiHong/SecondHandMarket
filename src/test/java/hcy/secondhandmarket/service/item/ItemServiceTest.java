@@ -183,7 +183,7 @@ class ItemServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id").ascending());
 
-        Page<Object[]> result = itemRepository.getListPage(pageable);
+        Page<Object[]> result = itemRepository.getItemList(pageable);
 
         List<Object[]> content = result.getContent();
 
