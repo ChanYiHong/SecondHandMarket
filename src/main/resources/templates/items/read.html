@@ -1,10 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
 
-</body>
+        <h1 class="mt-4">물건 세부 사항</h1>
+
+        <div class="form-group">
+            <img class="bd-placeholder-img card-img-top" width="100%" height="225" th:if="${item.imageDTOList.size() > 0 && item.imageDTOList[0].path != null}" th:src="|/display?fileName=${item.imageDTOList[0].getImageURL()}|">
+        </div>
+        <div class="form-group">
+            <label >title</label>
+            <input class="form-control" th:value="${item.title}" name="title" readonly>
+        </div>
+        <div class="form-group">
+            <label >sellPrice</label>
+            <input class="form-control" th:value="${item.sellPrice}" name="sellPrice" readonly>
+        </div>
+        <div class="form-group">
+            <label >category</label>
+            <input class="form-control" th:value="${item.category}" name="category" readonly>
+        </div>
+        <div class="form-group">
+            <label >description</label>
+            <input class="form-control" th:value="${item.description}" name="description" readonly>
+        </div>
+        <div class="form-group">
+            <label >status</label>
+            <input class="form-control" th:value="${item.status}" name="status" readonly>
+        </div>
+        <div class="form-group">
+            <label >area</label>
+            <input class="form-control" th:value="|${item.sidoArea} / ${item.siggArea} / ${item.emdArea}|" name="area" readonly>
+        </div>
+        <div class="form-group">
+            <label >email</label>
+            <input class="form-control" th:value="${item.email}" name="email" readonly>
+        </div>
+        <div class="form-group">
+            <label >phoneNumber</label>
+            <input class="form-control" th:value="${item.phoneNumber}" name="phoneNumber" readonly>
+        </div>
+        <div class="form-group">
+            <label >rating</label>
+            <input class="form-control" th:value="${item.rating}" name="rating" readonly>
+        </div>
+
+    </th:block>
+</th:block>
 </html>

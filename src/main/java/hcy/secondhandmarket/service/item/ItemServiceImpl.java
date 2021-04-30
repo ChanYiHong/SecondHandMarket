@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -81,8 +82,8 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public ItemResponseDTO getOne(Long itemId) {
         Object[] result = itemRepository.getItemById(itemId);
-        return entityToDTO((Item) result[0], (Member) result[1], (Category) result[2], (List<ItemImage>) result[3],
-                (EmdArea) result[3], (SiggArea) result[4], (SidoArea) result[5]);
+        return entityToDTO((Item) result[0], (Category) result[1], (Member) result[2], (List<ItemImage>) Arrays.asList((ItemImage)result[3]),
+                (EmdArea) result[4], (SiggArea) result[5], (SidoArea) result[6]);
     }
 
     @Override
@@ -93,7 +94,7 @@ public class ItemServiceImpl implements ItemService{
         Page<Object[]> result = itemRepository.getItemList(pageable);
 
         Function<Object[], ItemResponseDTO> fn = entity -> {
-            return entityToDTO((Item) entity[0], (Member) entity[1], (Category) entity[2], (List<ItemImage>) entity[3],
+            return entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
                     (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
         };
 

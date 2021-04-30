@@ -60,9 +60,9 @@ public class ItemController {
     public String itemList(@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
         log.info("Get Item List");
 
-        PageResponseDTO<Object[], ItemResponseDTO> items = itemService.getList(pageRequestDTO);
+        PageResponseDTO<Object[], ItemResponseDTO> result = itemService.getList(pageRequestDTO);
 
-        model.addAttribute("items", items);
+        model.addAttribute("result", result);
 
         return "/items/list";
     }

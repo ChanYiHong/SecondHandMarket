@@ -70,7 +70,7 @@ public interface ItemService {
         return entityMap;
     }
 
-    default ItemResponseDTO entityToDTO(Item item, Member member, Category category, List<ItemImage> imageList,
+    default ItemResponseDTO entityToDTO(Item item, Category category, Member member, List<ItemImage> imageList,
                                         EmdArea emdArea, SiggArea siggArea, SidoArea sidoArea) {
 
         List<ItemImageDTO> imageDTOList = imageList.stream().map(itemImage -> {
@@ -89,6 +89,7 @@ public interface ItemService {
                 .emdArea(emdArea.getName())
                 .siggArea(siggArea.getName())
                 .sidoArea(sidoArea.getName())
+                .id(item.getId())
                 .title(item.getTitle())
                 .sellPrice(item.getSellPrice())
                 .viewCount(item.getViewCount())
