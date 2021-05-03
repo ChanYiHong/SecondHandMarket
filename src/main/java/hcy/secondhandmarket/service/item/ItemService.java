@@ -1,6 +1,7 @@
 package hcy.secondhandmarket.service.item;
 
 import hcy.secondhandmarket.domain.*;
+import hcy.secondhandmarket.dto.item.ItemModifyDTO;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
@@ -25,6 +26,9 @@ public interface ItemService {
 
     // 상품 리스트.
     PageResponseDTO<Object[], ItemResponseDTO> getList(PageRequestDTO pageRequestDTO);
+
+    // 상품 수정.
+    void modifyItem(ItemModifyDTO itemModifyDTO);
 
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {

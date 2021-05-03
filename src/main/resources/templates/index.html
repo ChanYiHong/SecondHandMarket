@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
 
     <th:block th:fragment="content">
 
         <div sec:authorize="isAuthenticated()">
             어서오세요! <span sec:authentication="principal.name"></span>님!
+            <a href="/logout">
+                <button type="button" class="logout btn-primary">로그아웃</button>
+            </a>
         </div>
 
         <h1>이거 나오나요??</h1>

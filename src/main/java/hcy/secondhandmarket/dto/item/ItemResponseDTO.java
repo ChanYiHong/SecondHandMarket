@@ -29,7 +29,7 @@ public class ItemResponseDTO {
     private String sidoArea; // 시도 이름.
 
     /** 상품 정보. **/
-    private Long id;
+    private  Long id;
     private String title; // 상품명.
     private Integer sellPrice; // 상품 가격.
     private int viewCount; // 조회수.

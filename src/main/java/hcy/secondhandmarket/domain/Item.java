@@ -24,7 +24,6 @@ public class Item extends BaseEntity{
 
     private int viewCount;
 
-    @Lob
     private String description;
 
     @Convert(converter = StatusConverter.class)
@@ -39,5 +38,19 @@ public class Item extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
+
+    public void changeDescription(String description) {
+        this.description = description;
+    }
+
+    public void changeSellPrice(Integer sellPrice) {
+        this.sellPrice = sellPrice;
+    }
+
+
 
 }

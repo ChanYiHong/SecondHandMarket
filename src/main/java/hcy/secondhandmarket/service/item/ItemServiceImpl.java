@@ -1,8 +1,10 @@
 package hcy.secondhandmarket.service.item;
 
 import hcy.secondhandmarket.domain.*;
+import hcy.secondhandmarket.dto.item.ItemModifyDTO;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
+import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
 import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.repository.category.CategoryRepository;
@@ -25,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,5 +103,39 @@ public class ItemServiceImpl implements ItemService{
 
         return new PageResponseDTO<>(fn, result);
 
+    }
+
+    @Transactional
+    @Override
+    public void modifyItem(ItemModifyDTO itemModifyDTO) {
+        Optional<Item> result = itemRepository.findById(itemModifyDTO.getId());
+
+        if(result.isEmpty()) {
+           throw new IllegalArgumentException("There is no item : " + itemModifyDTO.getTitle());
+        }
+
+        Item item = result.get();
+
+        item.changeTitle(itemModifyDTO.getTitle());
+        item.changeDescription(itemModifyDTO.getDescription());
+        item.changeSellPrice(itemModifyDTO.getSellPrice());
+
+        List<ItemImageDTO> itemImageDTOList = itemModifyDTO.getItemImageDTOList();
+
+        if(itemImageDTOList.size() > 0 && itemImageDTOList != null) {
+            List<ItemImage> itemImages = itemImageDTOList.stream()
+                    .map(itemImageDTO -> {
+                        return ItemImage.builder()
+                                .uuid(itemImageDTO.getUuid())
+                                .path(itemImageDTO.getPath())
+                                .imgName(itemImageDTO.getImgName())
+                                .item(item)
+                                .build();
+                    }).collect(Collectors.toList());
+
+            for (ItemImage itemImage : itemImages) {
+                itemImageRepository.save(itemImage);
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 package hcy.secondhandmarket.controller;
 
 import hcy.secondhandmarket.dto.category.CategoryResponseDTO;
+import hcy.secondhandmarket.dto.item.ItemModifyDTO;
 import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
@@ -78,6 +79,18 @@ public class ItemController {
         model.addAttribute("item", result);
 
         return "/items/read";
+
+    }
+
+
+    @GetMapping("/modify/{id}")
+    public String modifyItem(@PathVariable("id") Long id, Model model) {
+
+        ItemResponseDTO item = itemService.getOne(id);
+
+        model.addAttribute("item", item);
+
+        return "/items/modify";
 
     }
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
     <th:block th:fragment="content">
 
@@ -44,6 +44,18 @@
             <label >rating</label>
             <input class="form-control" th:value="${item.rating}" name="rating" readonly>
         </div>
+
+        <div>
+            <a th:href="@{/items/modify/{id} (id=${item.id})}">수정</a>
+            <a th:href="@{/items/delete/{id} (id=${item.id})}">삭제</a>
+        </div>
+        <a href="/items" class="btn btn-secondary">돌아가기</a>
+
+        <script th:inline="javascript">
+            $(document).ready(e => {
+                
+            });
+        </script>
 
     </th:block>
 </th:block>
