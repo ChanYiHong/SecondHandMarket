@@ -127,8 +127,58 @@
             $(document).ready((e) => {
                
                 $(".modify").on("click", () => {
+
+                    var id = [[${item.id}]];
                     
                     var title = $("#title").val();
+                    var sellPrice =$("#sellPrice").val();
+                    var description = $("#description").val();
+
+                    console.log(id);
+                    console.log(title);
+                    console.log(sellPrice);
+                    console.log(description);
+
+                    var form = document.createElement("Form");
+
+                    form.setAttribute("charset", "UTF-8");
+                    form.setAttribute("method", "Post");
+                    form.setAttribute("action", "/items/modify/"+id);
+                    
+                    var idInput = document.createElement("input");
+
+                    idInput.setAttribute("type", "hidden");
+                    idInput.setAttribute("name", "id");
+                    idInput.setAttribute("value", id);
+
+                    var titleInput = document.createElement("input");
+
+                    titleInput.setAttribute("type", "hidden");
+                    titleInput.setAttribute("name", "title");
+                    titleInput.setAttribute("value", title);
+
+                    var sellPriceInput = document.createElement("input");
+
+                    sellPriceInput.setAttribute("type", "hidden");
+                    sellPriceInput.setAttribute("name", "sellPrice");
+                    sellPriceInput.setAttribute("value", sellPrice);
+
+                    var descriptionInput = document.createElement("input");
+
+                    descriptionInput.setAttribute("type", "hidden");
+                    descriptionInput.setAttribute("name", "description");
+                    descriptionInput.setAttribute("value", description);
+
+                    form.appendChild(idInput);
+                    form.appendChild(titleInput);
+                    form.appendChild(sellPriceInput);
+                    form.appendChild(descriptionInput);
+
+                    document.body.appendChild(form);
+
+                    form.submit();
+
+                    alert("수정완료!!!!!");
 
                 })
 

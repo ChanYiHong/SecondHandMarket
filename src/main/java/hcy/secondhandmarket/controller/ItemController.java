@@ -84,7 +84,7 @@ public class ItemController {
 
 
     @GetMapping("/modify/{id}")
-    public String modifyItem(@PathVariable("id") Long id, Model model) {
+    public String modifyForm(@PathVariable("id") Long id, Model model) {
 
         ItemResponseDTO item = itemService.getOne(id);
 
@@ -94,4 +94,24 @@ public class ItemController {
 
     }
 
+    @PostMapping("/modify/{id}")
+    public String modifyItem(@PathVariable("id") Long id, @ModelAttribute ItemModifyDTO itemModifyDTO) {
+
+        log.info("Item Modify {} : {}", id, itemModifyDTO);
+
+        itemService.modifyItem(itemModifyDTO);
+
+        return "redirect:/items";
+    }
+
+    @PostMapping("/remove/{id}")
+    public String removeItem(@PathVariable("id") Long id) {
+
+        log.info("Item remove {}", id);
+
+        itemService.removeItem(id);
+
+        return "redirect:/items";
+
+    }
 }

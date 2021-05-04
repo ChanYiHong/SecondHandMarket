@@ -46,14 +46,30 @@
         </div>
 
         <div>
-            <a th:href="@{/items/modify/{id} (id=${item.id})}">수정</a>
-            <a th:href="@{/items/delete/{id} (id=${item.id})}">삭제</a>
+            <a class="btn-secondary" th:href="@{/items/modify/{id} (id=${item.id})}">수정</a>
+            <button class="removeBtn btn-secondary">삭제</button>
         </div>
         <a href="/items" class="btn btn-secondary">돌아가기</a>
 
         <script th:inline="javascript">
             $(document).ready(e => {
                 
+                $(".removeBtn").on("click", () => {
+
+                    var id = [[${item.id}]];
+
+                    $.ajax({
+                        url: "/items/remove/"+id,
+                        method: "POST",
+                        success: function(arr) {
+                            alert("삭제완료!");
+
+                            window.location.href = "/items";
+                        }
+                    });
+
+                });
+
             });
         </script>
 

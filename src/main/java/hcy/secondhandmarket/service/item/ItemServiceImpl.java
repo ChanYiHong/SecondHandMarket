@@ -138,4 +138,25 @@ public class ItemServiceImpl implements ItemService{
             }
         }
     }
+
+    @Override
+    @Transactional
+    public void removeItem(Long id) {
+
+        Optional<Item> result = itemRepository.findById(id);
+
+        if(result.isEmpty()) {
+            throw new IllegalArgumentException("Could not find Item : " + id);
+        }
+
+        Item item = result.get();
+
+        List<ItemImage> itemImages = itemImageRepository.findByItemId(id);
+
+        for (ItemImage itemImage : itemImages) {
+            itemImageRepository.deleteById(itemImage.getId());
+        }
+
+        itemRepository.deleteById(id);
+    }
 }

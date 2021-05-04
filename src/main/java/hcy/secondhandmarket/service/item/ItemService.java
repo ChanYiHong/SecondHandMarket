@@ -30,6 +30,9 @@ public interface ItemService {
     // 상품 수정.
     void modifyItem(ItemModifyDTO itemModifyDTO);
 
+    // 상품 삭제.
+    void removeItem(Long id);
+
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {
         //Member member = Member.builder().email(itemSaveDto.getEmail()).build();
