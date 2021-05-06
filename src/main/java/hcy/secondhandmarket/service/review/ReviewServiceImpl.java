@@ -5,6 +5,7 @@ import hcy.secondhandmarket.domain.Member;
 import hcy.secondhandmarket.domain.Review;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
 import hcy.secondhandmarket.dto.page.PageResponseDTO;
+import hcy.secondhandmarket.dto.review.ReviewModifyDTO;
 import hcy.secondhandmarket.dto.review.ReviewResponseDTO;
 import hcy.secondhandmarket.dto.review.ReviewSaveDTO;
 import hcy.secondhandmarket.repository.item.ItemRepository;
@@ -34,7 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public void save(ReviewSaveDTO reviewSaveDTO) {
+    public Long save(ReviewSaveDTO reviewSaveDTO) {
 
         String email = reviewSaveDTO.getEmail();
 
@@ -54,6 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
 
         Review review = dtoToEntity(reviewSaveDTO, member, item);
 
+        return review.getId();
     }
 
     @Override
@@ -74,15 +76,37 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDTO getOne(Long id) {
 
-        Optional<Review> result = reviewRepository.findById(id);
+        Object[] result = reviewRepository.findReviewByIdWithMember(id);
 
-        if(result.isEmpty()) {
-            throw new IllegalArgumentException("There is no review id : " + id);
+        Review review = (Review) result[0];
+        Member member = (Member) result[1];
+
+        return entityToDTO(review, member);
+
+    }
+
+    @Override
+    @Transactional
+    public void modifyReview(ReviewModifyDTO reviewModifyDTO) {
+
+        Optional<Review> optionalReview = reviewRepository.findById(reviewModifyDTO.getId());
+
+        if(optionalReview.isEmpty()) {
+            throw new IllegalArgumentException("There is no review id : " + reviewModifyDTO.getId());
         }
 
-        Review review = result.get();
+        Review review = optionalReview.get();
 
-        return null;
+        review.changeContent(reviewModifyDTO.getContent());
+        review.changeRating(reviewModifyDTO.getRating());
+
+    }
+
+    @Override
+    @Transactional
+    public void removeReview(Long id) {
+
+        reviewRepository.deleteById(id);
 
     }
 }

@@ -24,4 +24,12 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
 
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
+    public void changeRating(Integer rating) {
+        this.rating = rating;
+    }
+
 }

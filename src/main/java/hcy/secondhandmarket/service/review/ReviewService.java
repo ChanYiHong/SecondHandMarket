@@ -5,6 +5,7 @@ import hcy.secondhandmarket.domain.Member;
 import hcy.secondhandmarket.domain.Review;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
 import hcy.secondhandmarket.dto.page.PageResponseDTO;
+import hcy.secondhandmarket.dto.review.ReviewModifyDTO;
 import hcy.secondhandmarket.dto.review.ReviewResponseDTO;
 import hcy.secondhandmarket.dto.review.ReviewSaveDTO;
 
@@ -12,11 +13,15 @@ import java.util.List;
 
 public interface ReviewService {
 
-    void save(ReviewSaveDTO reviewSaveDTO);
+    Long save(ReviewSaveDTO reviewSaveDTO);
 
     PageResponseDTO<Object[], ReviewResponseDTO> getList(PageRequestDTO pageRequestDTO, Long itemId);
 
     ReviewResponseDTO getOne(Long id);
+
+    void modifyReview(ReviewModifyDTO reviewModifyDTO);
+
+    void removeReview(Long id);
 
     default Review dtoToEntity(ReviewSaveDTO reviewSaveDTO, Member member, Item item) {
 

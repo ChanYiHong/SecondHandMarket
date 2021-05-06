@@ -51,9 +51,130 @@
         </div>
         <a href="/items" class="btn btn-secondary">돌아가기</a>
 
+        <button type="button" class="btn btn-light addReview">리뷰 작성</button>
+
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">리뷰 작성</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <Label >리뷰 내용</Label>
+                            <input class="form-control" type="text" name="content" placeholder="댓글 내용">
+                        </div>
+                        <div class="form-group">
+                            <Label >평점 <span class="grade"></span></Label>
+                            <div class="starrr"></div>
+                        </div>
+                        <div class="form-group">
+                            <Label >작성자</Label>
+                            <input class="form-control" type="hidden" name="email" value="">
+                            <input type="hidden" name="id">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary reviewSave">저장</button>
+                        <button type="button" class="btn btn-warning reviewModify">수정</button>
+                        <button type="button" class="btn btn-danger reviewRemove">삭제</button>
+                        <button type="button" class="btn btn-outline-secondary reviewClose" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div clsss="reviewList">
+
+        </div>
+
+        <script th:src="@{/js/starrr.js}"></script>
+        <link th:href="@{/css/starrr.css}" rel="stylesheet">
+        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+
         <script th:inline="javascript">
             $(document).ready(e => {
+
+                var reviewList = $(".reviewList");
+                var itemId = [[${item.id}]];
+                var modal = $(".modal");
+
+                // modal의 rating 화면..
+                var grade = 1;
+
+                $('.starrr').starrr({
+                    rating: grade,
+                    change: function(e, value) {
+                        if (value) {
+                            console.log(value);
+                            grade = value;
+                        }
+                    }
+                });
+
+                $.getJSON("/reviews/list/"+itemId, (arr) => {
+
+                    var str = "";
+                    var data = arr["dataList"];
+
+                    $.each(data, (idx, review) => {
+                        
+                        str += "<div class='card m-3 reviewBody' data-id='"+review.id+"'>";
+                        str += "<h5 class='card-body reviewContent'>"+review.content+"</h5>";
+                        str += "<h6 class='card-footer reviewWriter'>"+review.writer+"</h6>";
+                        str += "<h6 class='card-footer reviewGrade'>"+review.grade+"</h6>";
+                        str += "</div>";
+
+                        str += "<h4 class='my-4'>"
+
+                    });
+
+                    reviewList.html(str);
+
+                });
                 
+                // 리뷰 추가 버튼 눌렀을 때.
+                $(".addReview").on("click", () => {
+                    
+                    modal.modal("show");
+
+                    // input 태그 내용 초기화
+                    $('input[name="content"]').val('');
+                    
+                    $(".modal-footer .btn").hide();
+                    $(".reviewSave .reviewClose").show();
+
+                });
+
+                // 리뷰 삭제 버튼 눌렀을 때.
+                $(".saveReview").on("click", () => {
+
+                    var data = {
+                        content: $('input[name="content"]').val(),
+                        rating: grade,
+                        writer: 이메일,
+                        itemId: itemId,
+                    }
+
+                    $.ajax({
+                        url: "/reviews",
+                        method: "POST",
+                        processData: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function(result) {
+                            let reviewId = parseInt(result);
+                            console.log("댓글 등록 : " + reviewId);
+                            self.location.reload();
+                        }
+                    });
+
+                });
+
+                // item 삭제.
                 $(".removeBtn").on("click", () => {
 
                     var id = [[${item.id}]];
