@@ -35,9 +35,10 @@ public class ItemController {
     // Item 생성. 카테고리, 지역정보를 선택할 수 있고, 사용자 정보는 자동으로 들어가도록 한다.
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/new")
-    public String createItem(Model model) {
+    public String createItem(Model model, @AuthenticationPrincipal MemberDTO memberDTO) {
         List<CategoryResponseDTO> categories = categoryService.findAll();
 
+        model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("categories", categories);
         model.addAttribute("itemSaveDTO", new ItemSaveDTO());
 

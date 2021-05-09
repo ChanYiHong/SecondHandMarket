@@ -73,7 +73,7 @@
                         </div>
                         <div class="form-group">
                             <Label >작성자</Label>
-                            <input class="form-control" type="hidden" name="email" value="">
+                            <!-- <input class="form-control" type="hidden" name="email" th:value="${memberDTO.email}"> -->
                             <input type="hidden" name="id">
                         </div>
                     </div>
@@ -101,6 +101,8 @@
                 var reviewList = $(".reviewList");
                 var itemId = [[${item.id}]];
                 var modal = $(".modal");
+
+                var email = [[${memberDTO.email}]];
 
                 // modal의 rating 화면..
                 var grade = 1;
@@ -149,13 +151,13 @@
 
                 });
 
-                // 리뷰 삭제 버튼 눌렀을 때.
+                // 리뷰 저장 버튼 눌렀을 때.
                 $(".saveReview").on("click", () => {
 
                     var data = {
                         content: $('input[name="content"]').val(),
                         rating: grade,
-                        writer: 이메일,
+                        writer: email,
                         itemId: itemId,
                     }
 
