@@ -35,9 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public Long save(ReviewSaveDTO reviewSaveDTO) {
-
-        String email = reviewSaveDTO.getEmail();
+    public Long save(ReviewSaveDTO reviewSaveDTO, String email) {
 
         // Member
         Optional<Member> memberOptional = memberRepository.findByEmail(email, false);
@@ -54,6 +52,8 @@ public class ReviewServiceImpl implements ReviewService {
         Item item = itemOptional.get();
 
         Review review = dtoToEntity(reviewSaveDTO, member, item);
+
+        reviewRepository.save(review);
 
         return review.getId();
     }

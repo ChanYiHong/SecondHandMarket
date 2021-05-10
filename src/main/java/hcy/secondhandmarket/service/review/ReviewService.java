@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-    Long save(ReviewSaveDTO reviewSaveDTO);
+    Long save(ReviewSaveDTO reviewSaveDTO, String email);
 
     PageResponseDTO<Object[], ReviewResponseDTO> getList(PageRequestDTO pageRequestDTO, Long itemId);
 
@@ -36,6 +36,7 @@ public interface ReviewService {
     default ReviewResponseDTO entityToDTO(Review review, Member member) {
 
         return ReviewResponseDTO.builder()
+                .id(review.getId())
                 .content(review.getContent())
                 .rating(review.getRating())
                 .writer(member.getName())

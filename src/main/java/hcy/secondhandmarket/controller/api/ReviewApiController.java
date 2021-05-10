@@ -5,12 +5,14 @@ import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.dto.review.ReviewModifyDTO;
 import hcy.secondhandmarket.dto.review.ReviewResponseDTO;
 import hcy.secondhandmarket.dto.review.ReviewSaveDTO;
+import hcy.secondhandmarket.security.dto.MemberDTO;
 import hcy.secondhandmarket.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,12 +49,12 @@ public class ReviewApiController {
     }
 
     // 댓글 등록
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Long> createReview(@RequestBody ReviewSaveDTO reviewSaveDTO) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Long> createReview(@RequestBody ReviewSaveDTO reviewSaveDTO, @AuthenticationPrincipal MemberDTO memberDTO) {
 
         log.info("Create Review : {}", reviewSaveDTO);
 
-        Long id = reviewService.save(reviewSaveDTO);
+        Long id = reviewService.save(reviewSaveDTO, memberDTO.getEmail());
 
         return new ResponseEntity<>(id, HttpStatus.OK);
 

@@ -49,9 +49,21 @@
             <a class="btn-secondary" th:href="@{/items/modify/{id} (id=${item.id})}">수정</a>
             <button class="removeBtn btn-secondary">삭제</button>
         </div>
+
+        <div clsss="reviewList">
+
+        </div>
+
         <a href="/items" class="btn btn-secondary">돌아가기</a>
 
         <button type="button" class="btn btn-light addReview">리뷰 작성</button>
+        <button type="button" class="btn btn-light reviewCnt">리뷰 보기</button>
+        
+
+        <!-- <div class="mt-4">
+            <h5 ><span class="badge badge-secondary reviewCnt">리뷰보기</span> </h5>
+        </div> -->
+
 
         <div class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -71,11 +83,6 @@
                             <Label >평점 <span class="grade"></span></Label>
                             <div class="starrr"></div>
                         </div>
-                        <div class="form-group">
-                            <Label >작성자</Label>
-                            <!-- <input class="form-control" type="hidden" name="email" th:value="${memberDTO.email}"> -->
-                            <input type="hidden" name="id">
-                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary reviewSave">저장</button>
@@ -87,22 +94,16 @@
             </div>
         </div>
 
-        <div clsss="reviewList">
-
-        </div>
-
         <script th:src="@{/js/starrr.js}"></script>
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
         <script th:inline="javascript">
-            $(document).ready(e => {
+            $(document).ready((e) => {
 
                 var reviewList = $(".reviewList");
                 var itemId = [[${item.id}]];
                 var modal = $(".modal");
-
-                var email = [[${memberDTO.email}]];
 
                 // modal의 rating 화면..
                 var grade = 1;
@@ -117,24 +118,75 @@
                     }
                 });
 
-                $.getJSON("/reviews/list/"+itemId, (arr) => {
+                $(".reviewCnt").on("click", () => {
+                    $.getJSON("/reviews/list/"+itemId, (arr) => {
 
+                    makeReviewList(arr);
+
+                    });
+                });
+
+                // $.getJSON("/reviews/list/"+itemId, (arr) => {
+
+                //     makeReviewList(arr);
+
+                // });
+
+                function makeReviewList(arr) {
+                    
                     var str = "";
                     var data = arr["dataList"];
 
+                    console.log(data);
+
                     $.each(data, (idx, review) => {
                         
-                        str += "<div class='card m-3 reviewBody' data-id='"+review.id+"'>";
-                        str += "<h5 class='card-body reviewContent'>"+review.content+"</h5>";
-                        str += "<h6 class='card-footer reviewWriter'>"+review.writer+"</h6>";
-                        str += "<h6 class='card-footer reviewGrade'>"+review.grade+"</h6>";
+                        str += "<div class='card-body reviewBody' data-id='"+review.id+"'>";
+                        str += "<h5 class='card-title reviewContent'>"+review.content+"</h5>";
+                        str += "<h6 class='card-subtitle reviewWriter'>"+review.writer+"</h6>";
+                        str += "<h6 class='card-text reviewGrade'>"+review.rating+"</h6>";
                         str += "</div>";
 
-                        str += "<h4 class='my-4'>"
+                        //str += "<h4 class='my-4'>"
 
                     });
 
-                    reviewList.html(str);
+                    str += "<ul class='pagination h-100 justify-content-center align-items-center'>";
+                    if(arr.prev) {
+                        str += "<li class='page-item'>";
+                        str += "<a class='page-link' data-page='"+(arr.start - 1)+"' tabindex='-1'>PREVIOUS</a>"
+                        str += "</li>";
+                    }
+
+                    for(var pageIndex = 0; pageIndex < arr.pageList.length; pageIndex++) {
+                        str += "<li>";
+                        str += "<a class='page-link' data-page='"+arr.pageList[pageIndex]+"'>"+arr.pageList[pageIndex]+"</a>";
+                        str += "</li>";
+                    }
+
+                    if(arr.next) {
+                        str += "<li class='page-item'>";
+                        str += "<a class='page-link' data-page='"+(arr.end + 1)+"'>NEXT</a>"
+                        str += "</li>";
+                    }
+                    str += "</ul>";
+
+                    console.log(str);
+
+                    //reviewList.html(str);
+                    $(".reviewList").html(str);
+
+                }
+
+                $(".reviewList").on("click", ".page-link", () => {
+
+                    var page = $(this).data("page");
+
+                    $.getJSON("/reviews/list/"+itemId+"?page="+page, function(arr) {
+                        
+                        makeReviewList(arr);
+
+                    });
 
                 });
                 
@@ -147,34 +199,39 @@
                     $('input[name="content"]').val('');
                     
                     $(".modal-footer .btn").hide();
-                    $(".reviewSave .reviewClose").show();
+                    $(".reviewSave, .reviewClose").show();
 
                 });
 
                 // 리뷰 저장 버튼 눌렀을 때.
-                $(".saveReview").on("click", () => {
+                $(".reviewSave").on("click", () => {
 
                     var data = {
                         content: $('input[name="content"]').val(),
                         rating: grade,
-                        writer: email,
-                        itemId: itemId,
+                        itemId: itemId
                     }
 
                     $.ajax({
-                        url: "/reviews",
+                        url: "/reviews/",
                         method: "POST",
                         processData: false,
                         contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(data),
                         dataType: "json",
                         success: function(result) {
-                            let reviewId = parseInt(result);
+                            console.log(result);
+                            var reviewId = parseInt(result);
                             console.log("댓글 등록 : " + reviewId);
                             self.location.reload();
                         }
                     });
 
                 });
+
+                $(".reviewClose").on("click", () => {
+                    modal.modal("hide");
+                })
 
                 // item 삭제.
                 $(".removeBtn").on("click", () => {
