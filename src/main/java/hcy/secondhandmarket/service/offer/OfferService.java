@@ -29,7 +29,15 @@ public interface OfferService {
 
     default OfferResponseDTO entityToDTO(Offer offer, Item item, Member member) {
 
-        return null;
+        return OfferResponseDTO.builder()
+                .id(offer.getId())
+                .offerPrice(offer.getOfferPrice())
+                .message(offer.getMessage())
+                .offerStatus(offer.getOfferStatus())
+                .nickname(member.getName())
+                .itemId(item.getId())
+                .title(item.getTitle())
+                .build();
 
     }
 
