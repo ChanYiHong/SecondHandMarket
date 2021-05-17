@@ -10,7 +10,7 @@
         </div>
         <div class="form-group">
             <label >title</label>
-            <input class="form-control" th:value="${item.title}" name="title" readonly>
+            <input class="form-control title" th:value="${item.title}" name="title" readonly>
         </div>
         <div class="form-group">
             <label >sellPrice</label>
@@ -50,22 +50,19 @@
             <button class="removeBtn btn-secondary">삭제</button>
         </div>
 
-        <div clsss="reviewList">
-
-        </div>
-
+        <a th:href="@{/offers/new/{id} (id=${item.id})}" class="btn btn-primary">구매 요청</a>
+    
         <a href="/items" class="btn btn-secondary">돌아가기</a>
 
-        <button type="button" class="btn btn-light addReview">리뷰 작성</button>
-        <button type="button" class="btn btn-light reviewCnt">리뷰 보기</button>
+        <button type="button" class="btn btn-light addReview">댓글 작성</button>
+
+        
+        <div class="reviewList">
+
+        </div>
         
 
-        <!-- <div class="mt-4">
-            <h5 ><span class="badge badge-secondary reviewCnt">리뷰보기</span> </h5>
-        </div> -->
-
-
-        <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal reviewCreate" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -88,13 +85,49 @@
                         <button type="button" class="btn btn-primary reviewSave">저장</button>
                         <button type="button" class="btn btn-warning reviewModify">수정</button>
                         <button type="button" class="btn btn-danger reviewRemove">삭제</button>
-                        <button type="button" class="btn btn-outline-secondary reviewClose" data-dismiss="modal">닫기</button>
+                        <button type="button" class="btn btn-outline-secondary reviewCreateClose" data-dismiss="modal">닫기</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script th:src="@{/js/starrr.js}"></script>
+        <div class="modal reviewRead" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">리뷰 작성</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label >리뷰 내용</label>
+                            <input class="form-control" type="text" name="readContent">
+                        </div>
+                        <div class="form-group">
+                            <label >작성자</label>
+                            <input class="form-control" type="text" name="readWriter"> 
+                        </div>
+                        <div class="form-group">
+                            <label >Grade <span class="grade"></span></label>
+                            <div class="starrr"></div>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="hidden" name="readId">
+                        </div>  
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary reviewSave">저장</button>
+                        <button type="button" class="btn btn-warning reviewModify">수정</button>
+                        <button type="button" class="btn btn-danger reviewRemove">삭제</button>
+                        <button type="button" class="btn btn-outline-secondary reviewReadClose" data-dismiss="modal">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script th:src="@{/starrr.js}"></script>
         <link th:href="@{/css/starrr.css}" rel="stylesheet">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 
@@ -103,7 +136,8 @@
 
                 var reviewList = $(".reviewList");
                 var itemId = [[${item.id}]];
-                var modal = $(".modal");
+                var modalCreate = $(".reviewCreate");
+                var modalRead = $(".reviewRead");
 
                 // modal의 rating 화면..
                 var grade = 1;
@@ -118,13 +152,19 @@
                     }
                 });
 
-                $(".reviewCnt").on("click", () => {
-                    $.getJSON("/reviews/list/"+itemId, (arr) => {
+                $.getJSON("/reviews/list/"+itemId, (arr) => {
 
                     makeReviewList(arr);
 
-                    });
                 });
+
+                // $(".reviewCnt").on("click", () => {
+                //     $.getJSON("/reviews/list/"+itemId, (arr) => {
+
+                //         makeReviewList(arr);
+
+                //     });
+                // });
 
                 // $.getJSON("/reviews/list/"+itemId, (arr) => {
 
@@ -139,15 +179,16 @@
 
                     console.log(data);
 
+
                     $.each(data, (idx, review) => {
                         
                         str += "<div class='card-body reviewBody' data-id='"+review.id+"'>";
-                        str += "<h5 class='card-title reviewContent'>"+review.content+"</h5>";
-                        str += "<h6 class='card-subtitle reviewWriter'>"+review.writer+"</h6>";
-                        str += "<h6 class='card-text reviewGrade'>"+review.rating+"</h6>";
+                        str += "<h5 class='card-title reviewContent' data-content='"+review.content+"'>"+review.content+"</h5>";
+                        str += "<h6 class='card-subtitle reviewWriter' data-writer='"+review.writer+"'>"+review.writer+"</h6>";
+                        str += "<h6 class='card-text reviewRating data-rating='"+review.rating+"'>"+review.rating+"</h6>";
                         str += "</div>";
 
-                        //str += "<h4 class='my-4'>"
+                        // str += "<h4 class='my-4'>"
 
                     });
 
@@ -171,9 +212,6 @@
                     }
                     str += "</ul>";
 
-                    console.log(str);
-
-                    //reviewList.html(str);
                     $(".reviewList").html(str);
 
                 }
@@ -193,13 +231,13 @@
                 // 리뷰 추가 버튼 눌렀을 때.
                 $(".addReview").on("click", () => {
                     
-                    modal.modal("show");
+                    modalCreate.modal("show");
 
                     // input 태그 내용 초기화
                     $('input[name="content"]').val('');
                     
                     $(".modal-footer .btn").hide();
-                    $(".reviewSave, .reviewClose").show();
+                    $(".reviewSave, .reviewCreateClose").show();
 
                 });
 
@@ -229,9 +267,67 @@
 
                 });
 
-                $(".reviewClose").on("click", () => {
-                    modal.modal("hide");
+                $(".reviewCreateClose").on("click", () => {
+                    modalCreate.modal("hide");
+                });
+
+                $(".reviewReadClose").on("click", () => {
+                    modalRead.modal("hide");
+                });
+
+                $(".close").on("click", () => {
+                    modalCreate.modal("hide");
+                    modalRead.modal("hide");
                 })
+
+                $(".reviewList").on("click", ".reviewBody", () => {
+
+                    var id = $(this).data("id");
+
+                    var targetReview = $(this);
+                    console.log(targetReview);
+
+                    $("input[name='readId']").val(id);
+                    //$("input[name='content']").val($(this).find(".reviewContent").html());
+                    //$("input[name='writer']").val($(this).find(".reviewWriter").html());
+
+                    $("input[name='readContent']").val($(this).data("content"));
+                    $("input[name='readWriter']").val($(this).data("writer"));
+
+                    console.log(id);
+                    console.log($(this).data("content"));
+                    console.log($(this).data("writer"));
+
+                    //console.log($(this).find(".reviewContent").html());
+                    //console.log($(this).find(".reviewWriter").html());
+
+                    //.val(targetReview.find('.card-title').clone().children().remove().end().text());
+                    // -> 중간에 span children tag의 내용을 삭제하기 위한 코드..
+
+                    //var grade = targetReview.find('.card-title span').html();
+                    var grade = $(this).data("rating");
+
+                    //var grade = $(this).find('.reviewRating').html();
+                    //$(".starrr a:nth-child("+grade+")").trigger("click");
+
+                    $('.modal-footer .btn').hide();
+                    $('.reviewRemove, .reviewModify, .reviewClose').show();
+                
+                    modalRead.modal("show");
+
+                });
+
+                $(".reviewModify").on("click", () => {
+
+                });
+
+                $(".reviewRemove").on("click", () => {
+                    
+                    var id = $("input[name='id']").val();
+
+                    console.log(id);
+
+                });
 
                 // item 삭제.
                 $(".removeBtn").on("click", () => {

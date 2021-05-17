@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
+
+    <div>
+        <table>
+            <tbody>
+                <tr th:each="offer : ${result.dataList}">
+                    <div class="form-group">
+                        <label >offerPrice</label>
+                        <input class="form-control title" th:value="${offer.offerPrice}" name="offerPrice" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label >message</label>
+                        <input class="form-control" th:value="${offer.message}" name="message" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label >offerStatus</label>
+                        <input class="form-control" th:value="${offer.offerStatus}" name="offerStatus" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label >nickname</label>
+                        <input class="form-control" th:value="${offer.nickname}" name="nickname" readonly>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    </th:block>
+</th:block>
+</html>
