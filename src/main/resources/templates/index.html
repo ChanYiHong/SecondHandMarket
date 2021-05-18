@@ -10,13 +10,20 @@
                 <button type="button" class="logout btn-primary">로그아웃</button>
             </a>
 
+            <h1>
+                <a th:href="@{/members/{email} (email=${memberDTO.email})}">
+                    내 정보
+                </a>
+            </h1>
+
             <h1 class="mt-4" th:text="${memberDTO.email}">나옴?</h1>
         </div>
 
-        <h1>이거 나오나요??</h1>
-
-        
-        <h1>안되자나!</h1>
+        <h1>
+            <a href="/members/login" class="btn btn-light">
+                로그인
+            </a>
+        </h1>
 
         <h1>
             <a href="/items/new" class="btn btn-primary">

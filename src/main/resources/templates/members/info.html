@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
+
+        <h1 class="mt-4">User Info</h1>
+
+        <div class="form-group">
+            <label >이메일</label>
+            <input class="form-control title" th:value="${result.email}" name="email" readonly>
+        </div>
+        <div class="form-group">
+            <label >닉네임</label>
+            <input class="form-control" th:value="${result.nickname}" name="nickname" readonly>
+        </div>
+        <div class="form-group">
+            <label >폰번호</label>
+            <input class="form-control" th:value="${result.phoneNumber}" name="phoneNumber" readonly>
+        </div>
+        <div class="form-group">
+            <label >게시글 수</label>
+            <!-- <input class="form-control" th:value="${result.}" name="description" readonly> -->
+            <a th:href="@{/itmes/{email} (email=${result.email})}" th:text="${result.postCnt}"></a>
+        </div>
+        <div class="form-group">
+            <label >댓글 수</label>
+            <!-- <input class="form-control" th:value="${result.status}" name="status" readonly> -->
+            <a th:href="@{/reviews/{email} (email=${result.email})}" th:text="${result.reviewCnt}"></a>
+        </div>
+
+    <a href="/">돌아가기</a>
+
+    </th:block>
+</th:block>
+</html>
