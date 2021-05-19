@@ -21,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 @Controller
@@ -113,6 +115,22 @@ public class ItemController {
         itemService.removeItem(id);
 
         return "redirect:/items";
+
+    }
+
+    // 회원이 등록한 item 리스트
+    @GetMapping("/info/{email}")
+    public String memberInfoItemList(@PathVariable("email") String email, @ModelAttribute PageRequestDTO pageRequestDTO, Model model) throws UnsupportedEncodingException {
+
+        email = URLDecoder.decode(email, "UTF-8");
+
+        log.info("Member Info Item List / email : {}", email);
+
+        PageResponseDTO<Object[], ItemResponseDTO> result = itemService.getListByEmail(email, pageRequestDTO);
+
+        model.addAttribute("result", result);
+
+        return "/items/list";
 
     }
 }

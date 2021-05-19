@@ -76,10 +76,10 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponseDTO getOne(Long id) {
 
-        Object[] result = reviewRepository.findReviewByIdWithMember(id);
+        List<Object[]> result = reviewRepository.findReviewByIdWithMember(id);
 
-        Review review = (Review) result[0];
-        Member member = (Member) result[1];
+        Review review = (Review) result.get(0)[0];
+        Member member = (Member) result.get(0)[1];
 
         return entityToDTO(review, member);
 

@@ -20,7 +20,8 @@
         <div class="form-group">
             <label >게시글 수</label>
             <!-- <input class="form-control" th:value="${result.}" name="description" readonly> -->
-            <a th:href="@{/itmes/{email} (email=${result.email})}" th:text="${result.postCnt}"></a>
+            <!-- <a class="postBtn" th:text="${result.postCnt}"></a> -->
+            <button type="button" class="postBtn btn-secondary" th:text="${result.postCnt}"></button>
         </div>
         <div class="form-group">
             <label >댓글 수</label>
@@ -29,6 +30,33 @@
         </div>
 
     <a href="/">돌아가기</a>
+
+    <script th:inline="javascript">
+
+        $(document).ready((e) => {
+
+            function replace(url) {
+                url = encodeURIComponent(url);
+                return url;
+            }
+
+        });
+        
+        $(".postBtn").on("click", () => {
+            
+            var email = [[${result.email}]];
+
+            email = replace(email);
+
+            var url = "/items/info/"+email+"?page=0";
+
+            console.log(url);
+
+            location.href=url;
+
+        });
+
+    </script>
 
     </th:block>
 </th:block>

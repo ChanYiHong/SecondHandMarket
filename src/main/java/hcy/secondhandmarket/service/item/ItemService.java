@@ -27,6 +27,9 @@ public interface ItemService {
     // 상품 리스트.
     PageResponseDTO<Object[], ItemResponseDTO> getList(PageRequestDTO pageRequestDTO);
 
+    // 회원 정보에서 리스트 이메일로 가져오기.
+    PageResponseDTO<Object[], ItemResponseDTO> getListByEmail(String email, PageRequestDTO pageRequestDTO);
+
     // 상품 수정.
     void modifyItem(ItemModifyDTO itemModifyDTO);
 
