@@ -20,13 +20,13 @@
         <div class="form-group">
             <label >게시글 수</label>
             <!-- <input class="form-control" th:value="${result.}" name="description" readonly> -->
-            <!-- <a class="postBtn" th:text="${result.postCnt}"></a> -->
-            <button type="button" class="postBtn btn-secondary" th:text="${result.postCnt}"></button>
+            <a th:href="@{/items/info/{email} (email=${result.email})}" class="postBtn" th:text="${result.postCnt}"></a>
+            <!-- <button type="button" class="postBtn btn-secondary" th:text="${result.postCnt}"></button> -->
         </div>
         <div class="form-group">
             <label >댓글 수</label>
             <!-- <input class="form-control" th:value="${result.status}" name="status" readonly> -->
-            <a th:href="@{/reviews/{email} (email=${result.email})}" th:text="${result.reviewCnt}"></a>
+            <a th:href="@{/reviews/info/{email} (email=${result.email})}" th:text="${result.reviewCnt}"></a>
         </div>
 
     <a href="/">돌아가기</a>

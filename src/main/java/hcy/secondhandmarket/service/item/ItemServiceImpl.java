@@ -108,13 +108,14 @@ public class ItemServiceImpl implements ItemService{
     @Override
     public PageResponseDTO<Object[], ItemResponseDTO> getListByEmail(String email, PageRequestDTO pageRequestDTO) {
 
+        log.info("getListByEmail Service email : {}, pageRequestDTO : {}", email, pageRequestDTO);
+
         Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
 
         Page<Object[]> result = itemRepository.getListByEmail(email, pageable);
 
         Function<Object[], ItemResponseDTO> fn = entity -> {
-            return entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
-                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
+            return entityToDTO((Member) entity[0], (Item) entity[1], (List<ItemImage>) Arrays.asList((ItemImage) entity[2]));
         };
 
         return new PageResponseDTO<>(fn, result);

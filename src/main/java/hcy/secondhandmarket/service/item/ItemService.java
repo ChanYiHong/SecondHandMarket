@@ -112,4 +112,32 @@ public interface ItemService {
         return itemResponseDTO;
     }
 
+    default ItemResponseDTO entityToDTO(Member member, Item item, List<ItemImage> imageList) {
+
+        List<ItemImageDTO> imageDTOList = imageList.stream().map(itemImage -> {
+            return ItemImageDTO.builder()
+                    .imgName(itemImage.getImgName())
+                    .path(itemImage.getPath())
+                    .uuid(itemImage.getUuid())
+                    .build();
+        }).collect(Collectors.toList());
+
+        ItemResponseDTO itemResponseDTO = ItemResponseDTO.builder()
+                .email(member.getEmail())
+                .phoneNumber(member.getPhoneNumber())
+                .rating(member.getRating())
+                .id(item.getId())
+                .title(item.getTitle())
+                .sellPrice(item.getSellPrice())
+                .viewCount(item.getViewCount())
+                .description(item.getDescription())
+                .status(item.getStatus())
+                .build();
+
+        itemResponseDTO.setImageDTOList(imageDTOList);
+
+        return itemResponseDTO;
+
+    }
+
 }

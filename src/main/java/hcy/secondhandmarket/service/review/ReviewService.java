@@ -17,6 +17,8 @@ public interface ReviewService {
 
     PageResponseDTO<Object[], ReviewResponseDTO> getList(PageRequestDTO pageRequestDTO, Long itemId);
 
+    PageResponseDTO<Object[], ReviewResponseDTO> getListByEmail(PageRequestDTO pageRequestDTO, String email);
+
     ReviewResponseDTO getOne(Long id);
 
     void modifyReview(ReviewModifyDTO reviewModifyDTO);

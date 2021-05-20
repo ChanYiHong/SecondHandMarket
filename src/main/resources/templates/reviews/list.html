@@ -1,0 +1,29 @@
+<!DOCTYPE html> 
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
+    <th:block th:fragment="content">
+
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>내용</th>
+                    <th>작성자</th>
+                    <th>평점</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="review : ${result.dataList}">
+                    <td>[[${review.content}]]</td>
+                    <td>[[${review.writer}]]</td>
+                    <td>[[${review.rating}]]</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    </th:block>
+</th:block>
+
+</html>

@@ -120,9 +120,9 @@ public class ItemController {
 
     // 회원이 등록한 item 리스트
     @GetMapping("/info/{email}")
-    public String memberInfoItemList(@PathVariable("email") String email, @ModelAttribute PageRequestDTO pageRequestDTO, Model model) throws UnsupportedEncodingException {
+    public String memberInfoItemList(@PathVariable("email") String email, @ModelAttribute PageRequestDTO pageRequestDTO, Model model) {
 
-        email = URLDecoder.decode(email, "UTF-8");
+//        email = URLDecoder.decode(email, "UTF-8");
 
         log.info("Member Info Item List / email : {}", email);
 

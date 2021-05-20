@@ -74,6 +74,23 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public PageResponseDTO<Object[], ReviewResponseDTO> getListByEmail(PageRequestDTO pageRequestDTO, String email) {
+
+        log.info("Get List By Email : {}, pageRequestDTO : {}", email, pageRequestDTO);
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> result = reviewRepository.findReviewByMemberEmail(email, pageable);
+
+        Function<Object[], ReviewResponseDTO> fn = content -> {
+            return entityToDTO((Review) content[0], (Member) content[1]);
+        };
+
+        return new PageResponseDTO<>(fn, result);
+
+    }
+
+    @Override
     public ReviewResponseDTO getOne(Long id) {
 
         List<Object[]> result = reviewRepository.findReviewByIdWithMember(id);
