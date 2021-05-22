@@ -18,6 +18,9 @@ public interface OfferService {
     // 내가 올린 아이템에 들어온 요청들.
     PageResponseDTO<Object[], OfferResponseDTO> getListMyPage(PageRequestDTO pageRequestDTO, String email);
 
+    // 제안 거절.
+    void denyOffer(Long id);
+
     default Offer dtoToEntity(OfferSaveDTO offerSaveDTO, Item item, Member member) {
 
         return Offer.builder()

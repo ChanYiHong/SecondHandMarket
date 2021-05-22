@@ -78,4 +78,15 @@ public class OfferController {
 
     }
 
+    @PostMapping("/{id}/deny")
+    public String denyOffer(@PathVariable("id") Long offerId) {
+
+        offerService.denyOffer(offerId);
+
+        return "redirect:/offers";
+
+    }
+
+
+
 }

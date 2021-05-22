@@ -32,4 +32,9 @@ public class Offer extends BaseEntity{
     @Convert(converter = OfferStatusConverter.class)
     private OfferStatus offerStatus;
 
+    /** 요청 거절 **/
+    public void denyOffer() {
+        this.offerStatus = OfferStatus.DENY;
+    }
+
 }

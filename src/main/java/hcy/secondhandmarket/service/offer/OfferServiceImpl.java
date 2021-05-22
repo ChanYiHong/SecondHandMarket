@@ -87,4 +87,22 @@ public class OfferServiceImpl implements OfferService{
         return new PageResponseDTO<>(fn, result);
 
     }
+
+    @Override
+    @Transactional
+    public void denyOffer(Long id) {
+
+        log.info("Deny Offer : {}", id);
+
+        Optional<Offer> offerOptional = offerRepository.findById(id);
+
+        if(offerOptional.isEmpty()) {
+            throw new IllegalStateException("해당 하는 요청이 없습니다 " + id);
+        }
+
+        Offer offer = offerOptional.get();
+
+        offer.denyOffer();
+
+    }
 }
