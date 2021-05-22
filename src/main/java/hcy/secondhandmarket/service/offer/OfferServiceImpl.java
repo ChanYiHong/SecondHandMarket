@@ -71,6 +71,20 @@ public class OfferServiceImpl implements OfferService{
         };
 
         return new PageResponseDTO<>(fn, result);
+    }
+
+    @Override
+    public PageResponseDTO<Object[], OfferResponseDTO> getListMyPage(PageRequestDTO pageRequestDTO, String email) {
+
+        Pageable pageable = pageRequestDTO.getPageable(Sort.by("id").ascending());
+
+        Page<Object[]> result = offerRepository.getListByItemOwnerEmail(email, pageable);
+
+        Function<Object[], OfferResponseDTO> fn = entity -> {
+            return entityToDTO((Offer) entity[0], (Item) entity[1], (Member) entity[2]);
+        };
+
+        return new PageResponseDTO<>(fn, result);
 
     }
 }

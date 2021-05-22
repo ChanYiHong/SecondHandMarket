@@ -15,6 +15,9 @@ public interface OfferService {
 
     PageResponseDTO<Object[], OfferResponseDTO> getList(PageRequestDTO pageRequestDTO, Long itemId);
 
+    // 내가 올린 아이템에 들어온 요청들.
+    PageResponseDTO<Object[], OfferResponseDTO> getListMyPage(PageRequestDTO pageRequestDTO, String email);
+
     default Offer dtoToEntity(OfferSaveDTO offerSaveDTO, Item item, Member member) {
 
         return Offer.builder()

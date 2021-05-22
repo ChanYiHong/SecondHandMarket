@@ -24,6 +24,7 @@ public class OfferController {
     private final OfferService offerService;
     private final ItemService itemService;
 
+    // 해당 아이템에 요청된 내역..
     @GetMapping("/{itemId}")
     public String offerList(@PathVariable("itemId") Long itemId
             ,@ModelAttribute PageRequestDTO pageRequestDTO, Model model
@@ -34,6 +35,20 @@ public class OfferController {
         model.addAttribute("result", result);
 
         return "/offers/list";
+
+    }
+
+    // 내 아이템에 요청된 내역들..
+    @GetMapping
+    public String offerList(@ModelAttribute PageRequestDTO pageRequestDTO, @AuthenticationPrincipal MemberDTO memberDTO, Model model) {
+
+        log.info("Offer list owner email : {}", memberDTO.getEmail());
+
+        PageResponseDTO<Object[], OfferResponseDTO> result = offerService.getListMyPage(pageRequestDTO, memberDTO.getEmail());
+
+        model.addAttribute("result", result);
+
+        return "/offers/owner";
 
     }
 

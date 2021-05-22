@@ -16,20 +16,34 @@
                 </a>
             </h1>
 
-            <h1 class="mt-4" th:text="${memberDTO.email}">나옴?</h1>
+            <h1>
+                <a href="/items/new" class="btn btn-primary">
+                    물픔 등록
+                </a>
+            </h1>
+
+            <h1>
+                <a href="/offers" class="btn btn-primary">
+                    내 아이템 구매 요청 내역
+                </a>
+            </h1>
+
+            <h1>
+                <a href="/offers/list" class="btn btn-primary">
+                    내가 요청한 내역
+                </a>
+            </h1>
+
+<!--            <h1 class="mt-4" th:text="${memberDTO.email}">나옴?</h1>-->
         </div>
 
-        <h1>
-            <a href="/members/login" class="btn btn-light">
-                로그인
-            </a>
-        </h1>
-
-        <h1>
-            <a href="/items/new" class="btn btn-primary">
-                물픔 등록
-            </a>
-        </h1>
+        <div sec:authorize="isAnonymous()">
+            <h1>
+                <a href="/members/login" class="btn btn-light">
+                    로그인
+                </a>
+            </h1>
+        </div>
 
         <hr class="my-4">
 
