@@ -22,9 +22,9 @@ public class SecondhandmarketApplication {
 		return new JPAQueryFactory(em);
 	}
 
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-		return new ServerEndpointExporter();
-	}
+//	@Bean
+//	public ServerEndpointExporter serverEndpointExporter() {
+//		return new ServerEndpointExporter();
+//	}
 
 }

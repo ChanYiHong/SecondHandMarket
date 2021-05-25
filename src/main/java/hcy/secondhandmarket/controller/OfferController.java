@@ -87,6 +87,28 @@ public class OfferController {
 
     }
 
+    @PostMapping("/{id}/nego")
+    public String negoOffer(@PathVariable("id") Long offerId) {
 
+        offerService.startNegotiation(offerId);
+
+        return "redirect:/offers";
+
+    }
+
+    @PostMapping("/chat")
+    public String offerChat(@RequestParam("id") Long id, Model model) {
+
+        log.info("Chatting request,,, offer id : {}", id);
+
+        OfferResponseDTO result = offerService.getOne(id);
+
+        model.addAttribute("result", result);
+
+        log.info("Chatting processing...");
+
+        return "/chat/offer-chat";
+
+    }
 
 }

@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -56,6 +57,22 @@ public class OfferServiceImpl implements OfferService{
         offerRepository.save(offer);
 
         return offer.getId();
+
+    }
+
+    @Override
+    public OfferResponseDTO getOne(Long id) {
+        log.info("Get One Offer id : {}", id);
+
+        Optional<Offer> offerOptional = offerRepository.getOneWithItemByOfferId(id);
+
+        if(offerOptional.isEmpty()) {
+            throw new IllegalStateException("해당 하는 요청이 없습니다 " + id);
+        }
+
+        Offer offer = offerOptional.get();
+
+        return entityToDTO(offer);
 
     }
 
@@ -107,6 +124,7 @@ public class OfferServiceImpl implements OfferService{
     }
 
     @Override
+    @Transactional
     public void startNegotiation(Long id) {
 
         log.info("Negotiation start : {}", id);

@@ -146,4 +146,15 @@ class OfferRepositoryTest {
 
     }
 
+    @Test
+    public void getOneOfferTest() throws Exception {
+
+        Offer offer = offerRepository.getOneWithItemByOfferId(3L).get();
+
+        String title = offer.getItem().getTitle();
+
+        System.out.println(title);
+
+    }
+
 }

@@ -13,6 +13,8 @@ public interface OfferService {
 
     Long save(OfferSaveDTO offerSaveDTO);
 
+    OfferResponseDTO getOne(Long id);
+
     PageResponseDTO<Object[], OfferResponseDTO> getList(PageRequestDTO pageRequestDTO, Long itemId);
 
     // 내가 올린 아이템에 들어온 요청들.
@@ -46,6 +48,19 @@ public interface OfferService {
                 .nickname(member.getName())
                 .itemId(item.getId())
                 .title(item.getTitle())
+                .build();
+
+    }
+
+    default OfferResponseDTO entityToDTO(Offer offer) {
+
+        return OfferResponseDTO.builder()
+                .id(offer.getId())
+                .offerPrice(offer.getOfferPrice())
+                .message(offer.getMessage())
+                .offerStatus(offer.getOfferStatus())
+                .itemId(offer.getItem().getId())
+                .title(offer.getItem().getTitle())
                 .build();
 
     }
