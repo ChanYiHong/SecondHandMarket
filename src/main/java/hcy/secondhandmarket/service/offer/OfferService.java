@@ -21,6 +21,9 @@ public interface OfferService {
     // 제안 거절.
     void denyOffer(Long id);
 
+    // 협상 시작. (네고)
+    void startNegotiation(Long id);
+
     default Offer dtoToEntity(OfferSaveDTO offerSaveDTO, Item item, Member member) {
 
         return Offer.builder()

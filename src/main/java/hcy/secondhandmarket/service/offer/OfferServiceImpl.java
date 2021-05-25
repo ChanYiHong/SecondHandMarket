@@ -105,4 +105,21 @@ public class OfferServiceImpl implements OfferService{
         offer.denyOffer();
 
     }
+
+    @Override
+    public void startNegotiation(Long id) {
+
+        log.info("Negotiation start : {}", id);
+
+        Optional<Offer> offerOptional = offerRepository.findById(id);
+
+        if(offerOptional.isEmpty()) {
+            throw new IllegalStateException("해당 하는 요청이 없습니다 " + id);
+        }
+
+        Offer offer = offerOptional.get();
+
+        offer.negoOffer();
+
+    }
 }

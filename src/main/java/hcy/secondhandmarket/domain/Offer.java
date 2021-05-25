@@ -37,4 +37,9 @@ public class Offer extends BaseEntity{
         this.offerStatus = OfferStatus.DENY;
     }
 
+    /** 네고 시작 **/
+    public void negoOffer() {
+        this.offerStatus = OfferStatus.NEGO;
+    }
+
 }

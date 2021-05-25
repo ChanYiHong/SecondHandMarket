@@ -14,7 +14,10 @@ public class OfferStatusConverter implements AttributeConverter<OfferStatus, Int
             return 1;
         }else if(attribute.equals(OfferStatus.DENY)){
             return 2;
-        }else return null;
+        }else if(attribute.equals(OfferStatus.NEGO)){
+            return 3;
+        }
+        else return null;
     }
 
     @Override
@@ -25,6 +28,8 @@ public class OfferStatusConverter implements AttributeConverter<OfferStatus, Int
             return OfferStatus.ACCEPT;
         }else if(dbData == 2){
             return OfferStatus.DENY;
+        }else if(dbData == 3) {
+            return OfferStatus.NEGO;
         }else return null;
     }
 }
