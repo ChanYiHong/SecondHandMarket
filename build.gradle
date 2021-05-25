@@ -26,6 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	// 채팅을 위한 웹소켓
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
 	//querydsl 추가
 	implementation 'com.querydsl:querydsl-jpa'
 
