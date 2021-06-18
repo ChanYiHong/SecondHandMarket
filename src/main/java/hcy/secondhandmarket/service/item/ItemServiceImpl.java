@@ -10,6 +10,7 @@ import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.repository.category.CategoryRepository;
 import hcy.secondhandmarket.repository.emdarea.EmdAreaRepository;
 import hcy.secondhandmarket.repository.item.ItemRepository;
+import hcy.secondhandmarket.repository.item.ItemSearch;
 import hcy.secondhandmarket.repository.itemimage.ItemImageRepository;
 import hcy.secondhandmarket.repository.member.MemberRepository;
 import hcy.secondhandmarket.security.dto.MemberDTO;
@@ -175,5 +176,21 @@ public class ItemServiceImpl implements ItemService{
         }
 
         itemRepository.deleteById(id);
+    }
+
+    @Override
+    public PageResponseDTO<Object[], ItemResponseDTO> getListBySearchCond(ItemSearch itemSearch, PageRequestDTO pageRequestDTO) {
+
+        log.info("찾는 Item 조건 : {}", itemSearch);
+
+        Page<Object[]> result = itemRepository.findBySearchCond(itemSearch, pageRequestDTO.getPageable(Sort.by("id").ascending()));
+
+        Function<Object[], ItemResponseDTO> fn = entity -> {
+            return entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
+                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
+        };
+
+        return new PageResponseDTO<>(fn, result);
+
     }
 }

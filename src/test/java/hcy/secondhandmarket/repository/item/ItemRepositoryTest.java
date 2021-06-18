@@ -1,24 +1,36 @@
 package hcy.secondhandmarket.repository.item;
 
-import hcy.secondhandmarket.domain.Item;
-import hcy.secondhandmarket.domain.ItemImage;
-import hcy.secondhandmarket.domain.Member;
+import hcy.secondhandmarket.domain.*;
+import hcy.secondhandmarket.dto.item.ItemResponseDTO;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
+import hcy.secondhandmarket.dto.page.PageResponseDTO;
+import hcy.secondhandmarket.service.item.ItemService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    ItemService itemService;
+
+    @Autowired
+    EntityManager em;
 
     @Test
     @Transactional
@@ -44,6 +56,55 @@ class ItemRepositoryTest {
             System.out.println(item);
             System.out.println(itemImage);
 
+        }
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void findBySearchCondTest() throws Exception {
+        //given
+        ItemSearch itemSearch = new ItemSearch();
+        itemSearch.setTitle("웅아");
+        //itemSearch.setEmail("user1@hcy.com");
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO();
+
+        //when
+
+        Item money = Item.builder()
+                .title("money")
+                .status(Status.NEW)
+                .sellPrice(10000)
+                .build();
+
+        itemRepository.save(money);
+
+        System.out.println("==================================");
+        System.out.println("==================================");
+        System.out.println("==================================");
+        System.out.println("==================================");
+
+        Page<Item> result = itemRepository.findBySearchCondTemp(itemSearch, pageRequestDTO.getPageable(Sort.by("id")));
+
+        for (Item item : result) {
+            System.out.println(item);
+        }
+
+        System.out.println("==================================");
+        System.out.println("==================================");
+        System.out.println("==================================");
+        System.out.println("==================================");
+        System.out.println("직접.");
+
+
+        List<Item> resultList = em.createQuery("select i from Item i where i.title = :title", Item.class)
+                .setParameter("title", "웅아")
+                .getResultList();
+
+        for (Item item : resultList) {
+            System.out.println(item);
         }
 
     }

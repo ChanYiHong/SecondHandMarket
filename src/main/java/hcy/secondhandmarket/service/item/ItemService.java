@@ -7,6 +7,7 @@ import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
 import hcy.secondhandmarket.dto.page.PageResponseDTO;
+import hcy.secondhandmarket.repository.item.ItemSearch;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +36,9 @@ public interface ItemService {
 
     // 상품 삭제.
     void removeItem(Long id);
+
+    // 상품 검색.
+    PageResponseDTO<Object[], ItemResponseDTO> getListBySearchCond(ItemSearch itemSearch, PageRequestDTO pageRequestDTO);
 
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {
