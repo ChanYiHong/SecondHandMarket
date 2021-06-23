@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class ItemSearch {
 
     private String title;
-    private String email;
+//    private String email;
 
     /** 향후 검색조건 추가 **/
 

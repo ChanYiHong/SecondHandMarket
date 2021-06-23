@@ -92,36 +92,17 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .leftJoin(emdArea.siggArea, siggArea)
                 .leftJoin(siggArea.sidoArea, sidoArea)
                 .where(
-                        titleEq(itemSearch.getTitle()),
-                        emailEq(itemSearch.getEmail())
+                        titleEq(itemSearch.getTitle())
                 )
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
-                .offset(pageable.getPageSize())
+                .limit(pageable.getPageSize())
                 .fetchResults();
 
         List<Tuple> content = result.getResults();
         long total = result.getTotal();
 
         return new PageImpl<>(content.stream().map(Tuple::toArray).collect(Collectors.toList()), pageable, total);
-
-    }
-
-    @Override
-    public Page<Item> findBySearchCondTemp(ItemSearch itemSearch, Pageable pageable) {
-        QueryResults<Item> result = queryFactory
-                .select(item)
-                .from(item)
-                .where(titleEq("웅아"))
-//                .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
-//                .offset(pageable.getOffset())
-//                .offset(pageable.getPageSize())
-                .fetchResults();
-
-        List<Item> content = result.getResults();
-        long total = result.getTotal();
-
-        return new PageImpl<>(content, pageable, total);
 
     }
 

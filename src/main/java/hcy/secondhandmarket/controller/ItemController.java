@@ -7,6 +7,7 @@ import hcy.secondhandmarket.dto.item.ItemSaveDTO;
 import hcy.secondhandmarket.dto.page.PageRequestDTO;
 import hcy.secondhandmarket.dto.page.PageResponseDTO;
 import hcy.secondhandmarket.dto.sidoarea.SidoAreaResponseDTO;
+import hcy.secondhandmarket.repository.item.ItemSearch;
 import hcy.secondhandmarket.security.dto.MemberDTO;
 import hcy.secondhandmarket.service.category.CategoryService;
 import hcy.secondhandmarket.service.emdarea.EmdAreaService;
@@ -85,7 +86,7 @@ public class ItemController {
 
     }
 
-
+    /** GET : Item 수정 화면 **/
     @GetMapping("/modify/{id}")
     public String modifyForm(@PathVariable("id") Long id, Model model) {
 
@@ -97,6 +98,7 @@ public class ItemController {
 
     }
 
+    /** POST : Item 수정 **/
     @PostMapping("/modify/{id}")
     public String modifyItem(@PathVariable("id") Long id, @ModelAttribute ItemModifyDTO itemModifyDTO) {
 
@@ -107,6 +109,7 @@ public class ItemController {
         return "redirect:/items";
     }
 
+    /** Item 제거. **/
     @PostMapping("/remove/{id}")
     public String removeItem(@PathVariable("id") Long id) {
 
@@ -133,4 +136,24 @@ public class ItemController {
         return "/items/list";
 
     }
+
+    /** Item 검색 **/
+    @GetMapping("/search")
+    public String itemSearchResult(@RequestParam("title") String title, PageRequestDTO pageRequestDTO,
+                                   Model model) {
+
+        log.info("Item Search title : {}", title);
+
+        ItemSearch itemSearch = new ItemSearch();
+        itemSearch.setTitle(title);
+
+        PageResponseDTO<Object[], ItemResponseDTO> result = itemService.getListBySearchCond(itemSearch, pageRequestDTO);
+
+        model.addAttribute("result", result);
+        model.addAttribute("searchTitle", title);
+
+        return "/items/search";
+
+    }
+
 }

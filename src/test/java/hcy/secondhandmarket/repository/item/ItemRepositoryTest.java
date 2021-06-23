@@ -67,45 +67,45 @@ class ItemRepositoryTest {
         //given
         ItemSearch itemSearch = new ItemSearch();
         itemSearch.setTitle("웅아");
-        //itemSearch.setEmail("user1@hcy.com");
+        itemSearch.setEmail("user1@hcy.com");
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
         //when
 
-        Item money = Item.builder()
-                .title("money")
-                .status(Status.NEW)
-                .sellPrice(10000)
-                .build();
-
-        itemRepository.save(money);
+//        Item money = Item.builder()
+//                .title("money")
+//                .status(Status.NEW)
+//                .sellPrice(10000)
+//                .build();
+//
+//        itemRepository.save(money);
 
         System.out.println("==================================");
         System.out.println("==================================");
         System.out.println("==================================");
         System.out.println("==================================");
 
-        Page<Item> result = itemRepository.findBySearchCondTemp(itemSearch, pageRequestDTO.getPageable(Sort.by("id")));
+        Page<Object[]> result = itemRepository.findBySearchCond(itemSearch, pageRequestDTO.getPageable(Sort.by("id").ascending()));
 
-        for (Item item : result) {
-            System.out.println(item);
+        for (Object[] objects : result) {
+            System.out.println((Item) objects[0]);
         }
 
-        System.out.println("==================================");
-        System.out.println("==================================");
-        System.out.println("==================================");
-        System.out.println("==================================");
-        System.out.println("직접.");
-
-
-        List<Item> resultList = em.createQuery("select i from Item i where i.title = :title", Item.class)
-                .setParameter("title", "웅아")
-                .getResultList();
-
-        for (Item item : resultList) {
-            System.out.println(item);
-        }
+//        System.out.println("==================================");
+//        System.out.println("==================================");
+//        System.out.println("==================================");
+//        System.out.println("==================================");
+//        System.out.println("직접.");
+//
+//
+//        List<Item> resultList = em.createQuery("select i from Item i where i.title = :title", Item.class)
+//                .setParameter("title", "웅아")
+//                .getResultList();
+//
+//        for (Item item : resultList) {
+//            System.out.println(item);
+//        }
 
     }
 

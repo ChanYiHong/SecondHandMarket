@@ -42,11 +42,6 @@ public interface ItemService {
 
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {
-        //Member member = Member.builder().email(itemSaveDto.getEmail()).build();
-        //EmdArea emdArea = EmdArea.builder().id(itemSaveDto.getSellingAreaId()).build();
-        //Category category = Category.builder().id(itemSaveDto.getCategoryId()).build();
-
-        //Member member = Member.builder().email(memberDTO.getEmail()).build();
 
         Map<String, Object> entityMap = new HashMap<>();
 
