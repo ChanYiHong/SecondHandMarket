@@ -104,6 +104,7 @@ public interface ItemService {
                 .viewCount(item.getViewCount())
                 .description(item.getDescription())
                 .status(item.getStatus())
+                .createdTime(item.getCreatedTime())
                 .build();
 
         itemResponseDTO.setImageDTOList(imageDTOList);
@@ -131,6 +132,7 @@ public interface ItemService {
                 .viewCount(item.getViewCount())
                 .description(item.getDescription())
                 .status(item.getStatus())
+                .createdTime(item.getCreatedTime())
                 .build();
 
         itemResponseDTO.setImageDTOList(imageDTOList);

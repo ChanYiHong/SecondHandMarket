@@ -4,6 +4,7 @@ import hcy.secondhandmarket.domain.Status;
 import hcy.secondhandmarket.dto.itemimage.ItemImageDTO;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class ItemResponseDTO {
     private int viewCount; // 조회수.
     private String description; // 상품 설명.
     private Status status; // 상품 상황. (새로움, 예약됨, 판매완료).
+
+    private LocalDateTime createdTime; // 상품 만들어진 날짜.
 
     /** 상품 사진. **/
     @Builder.Default
