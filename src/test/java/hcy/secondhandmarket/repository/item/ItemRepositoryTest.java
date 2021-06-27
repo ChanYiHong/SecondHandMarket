@@ -67,7 +67,6 @@ class ItemRepositoryTest {
         //given
         ItemSearch itemSearch = new ItemSearch();
         itemSearch.setTitle("웅아");
-        itemSearch.setEmail("user1@hcy.com");
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 

@@ -4,6 +4,8 @@ import hcy.secondhandmarket.converter.StatusConverter;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,6 +41,11 @@ public class Item extends BaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
+    @Builder.Default
+    Set<Like> likes = new HashSet<>();
+
+    /** Item 수정용 메서드. **/
     public void changeTitle(String title) {
         this.title = title;
     }
@@ -50,7 +57,5 @@ public class Item extends BaseEntity{
     public void changeSellPrice(Integer sellPrice) {
         this.sellPrice = sellPrice;
     }
-
-
 
 }
