@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -27,15 +29,21 @@ public class MemberController {
     }
 
     @GetMapping("/join")
-    public String joinMember() {
+    public String joinMember(Model model) {
         log.info("Join Member Page");
-
+        model.addAttribute("memberSaveDTO", new MemberSaveDTO());
         return "/security/join";
     }
 
     @PostMapping("/join")
-    public String joinMemberPost(@ModelAttribute MemberSaveDTO memberSaveDTO) {
+    public String joinMemberPost(@Validated @ModelAttribute MemberSaveDTO memberSaveDTO, BindingResult bindingResult) {
 
+        if(bindingResult.hasErrors()) {
+            log.info("Error : {}", bindingResult);
+            return "/security/join";
+        }
+
+        log.info("회원 가입 성공!");
         memberService.join(memberSaveDTO);
 
         return "redirect:/";

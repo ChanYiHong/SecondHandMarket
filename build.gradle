@@ -26,6 +26,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
+	// 검증을 위한 validator
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 	// 채팅을 위한 웹소켓
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 

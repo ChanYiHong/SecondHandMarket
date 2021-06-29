@@ -4,44 +4,56 @@
 <th:block th:replace="~{/layout/create :: setContent(~{this :: content})}">
     <th:block th:fragment="content">
 
+        <style>
+            .invalid-feedback {
+                border-color: #dc3545;
+                color: #dc3545;
+            }
+            .field-error {
+                border-color: #dc3545;
+                color: #dc3545;
+            }
+        </style>
+
         <main>
             <div class="py-5 text-center">
                 <h2>회원 가입</h2>
                 <p class="lead">원활한 회원가입을 위해 모든 내용을 반드시 꼼꼼하게 작성해서 제출해 주세요!!</p>
             </div>
 
+<!--            class="needs-validation"    -->
             <div class="row g-5">
                 <div class="col-md-7 col-lg-8">
-                    <form class="needs-validation" action="/members/join" method="post" novalidate>
+                    <form th:action=@{/members/join} th:object="${memberSaveDTO}" method="post">
                         <div class="row g-3">
                             <div class="col-sm-6">
                                 <label for="emailAddress" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="emailAddress" placeholder="" name="email" required>
-                                <div class="invalid-feedback">
+                                <input type="email" th:errorclass="field-error" class="form-control" id="emailAddress" th:field=*{email} placeholder="">
+                                <div class="field-error" th:errors="*{email}">
                                     Valid email is required.
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="text" class="form-control" id="password" placeholder="" name="password" required>
-                                <div class="invalid-feedback">
+                                <input type="text" th:errorclass="field-error" class="form-control" id="password" placeholder="" th:field="*{password}">
+                                <div class="field-error" th:errors="*{password}">
                                     Valid password required.
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="사용자 이름" required>
-                                <div class="invalid-feedback">
+                                <input type="text" th:errorclass="field-error" class="form-control" id="name" th:field="*{name}" placeholder="사용자 이름">
+                                <div class="field-error" th:errors="*{name}">
                                     Your username is required.
                                 </div>
                             </div>
 
                             <div class="col-12">
                                 <label for="phoneNumber" class="form-label">PhoneNumber</label>
-                                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="010-xxxx-xxxx" required>
-                                <div class="invalid-feedback">
+                                <input type="text" th:errorclass="field-error" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" placeholder="010-xxxx-xxxx">
+                                <div class="field-error" th:errors="*{phoneNumber}">
                                     Please enter your phoneNumber.
                                 </div>
                             </div>
