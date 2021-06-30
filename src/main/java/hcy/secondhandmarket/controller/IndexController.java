@@ -19,4 +19,11 @@ public class IndexController {
         return "/index";
     }
 
+    @GetMapping("/header")
+    public String temp() {
+
+        return "/layout/headers";
+
+    }
+
 }

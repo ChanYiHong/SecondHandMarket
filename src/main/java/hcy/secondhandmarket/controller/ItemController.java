@@ -20,6 +20,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -52,7 +54,15 @@ public class ItemController {
 
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/new")
-    public String saveItem(@ModelAttribute ItemSaveDTO itemSaveDTO, @AuthenticationPrincipal MemberDTO memberDTO) {
+    public String saveItem(@Validated @ModelAttribute ItemSaveDTO itemSaveDTO, BindingResult bindingResult,
+                           @AuthenticationPrincipal MemberDTO memberDTO, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            log.info("errors : {}", bindingResult);
+            List<CategoryResponseDTO> categories = categoryService.findAll();
+            model.addAttribute("categories", categories);
+            return "/items/new";
+        }
 
         log.info("Item Save : {}", itemSaveDTO);
 

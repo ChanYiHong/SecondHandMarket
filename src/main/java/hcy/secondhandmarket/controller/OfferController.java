@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -58,6 +60,7 @@ public class OfferController {
         ItemResponseDTO item = itemService.getOne(itemId);
 
         model.addAttribute("item", item);
+        model.addAttribute("offerSaveDTO", new OfferSaveDTO());
 
         return "/offers/new";
 
@@ -65,8 +68,15 @@ public class OfferController {
 
     @PostMapping("/new/{itemId}")
     public String saveOffer(@PathVariable("itemId") Long itemId,
-                            @ModelAttribute OfferSaveDTO offerSaveDTO,
-                            @AuthenticationPrincipal MemberDTO memberDTO) {
+                            @Validated  @ModelAttribute OfferSaveDTO offerSaveDTO, BindingResult bindingResult,
+                            @AuthenticationPrincipal MemberDTO memberDTO, Model model) {
+
+        if(bindingResult.hasErrors()) {
+            log.info("errors : {}", bindingResult);
+            ItemResponseDTO item = itemService.getOne(itemId);
+            model.addAttribute("item", item);
+            return "/offers/new";
+        }
 
         offerSaveDTO.setEmail(memberDTO.getEmail());
 
@@ -97,13 +107,14 @@ public class OfferController {
     }
 
     @PostMapping("/chat")
-    public String offerChat(@RequestParam("id") Long id, Model model) {
+    public String offerChat(@RequestParam("id") Long id, Model model, @AuthenticationPrincipal MemberDTO memberDTO) {
 
         log.info("Chatting request,,, offer id : {}", id);
 
         OfferResponseDTO result = offerService.getOne(id);
 
         model.addAttribute("result", result);
+        model.addAttribute("username", memberDTO.getName());
 
         log.info("Chatting processing...");
 
