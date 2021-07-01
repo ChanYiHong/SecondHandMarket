@@ -3,6 +3,31 @@
 <th:block th:replace="~{/layout/basic :: setContent(~{this :: content})}">
     <th:block th:fragment="content">
 
+        <style>
+            .heart-container {
+              display: flex;
+              justify-content: left;
+              align-items: left;
+              height: 5vh;
+
+              .button-container {
+                margin-left: 20px;
+
+                a {
+                  background-color: #fff;
+                  border: 2px solid #2199e8;
+                  padding: 15px 35px;
+                  border-radius: 4px;
+
+                  &:hover {
+                    background-color: #2199e8;
+                    color: #fff;
+                  }
+                }
+              }
+            }
+        </style>
+
         <h1 class="mt-4">물건 세부 사항</h1>
 
         <div class="form-group">
@@ -43,6 +68,15 @@
         <div class="form-group">
             <label >rating</label>
             <input class="form-control" th:value="${item.rating}" name="rating" readonly>
+        </div>
+
+        <div class="heart-container">
+            <div class="button-container like-container">
+                <span>
+                    <i class="fa fa-heart-o"> Like </i>
+                    <span class="heartNumber"></span>
+                </span>
+            </div>
         </div>
 
         <div>
@@ -139,6 +173,16 @@
                 var modalCreate = $(".reviewCreate");
                 var modalRead = $(".reviewRead");
 
+                var heartNumber = $(".heartNumber");
+
+                // 좋아요 관련 시작
+                $.getJSON("/likes/"+itemId, (result) => {
+                    heartNumber.html(result);
+                });
+
+                // 좋아요 관련 끝
+
+
                 // modal의 rating 화면..
                 var grade = 1;
 
@@ -152,26 +196,14 @@
                     }
                 });
 
+                // 화면 뜨자마자 해당 item의 댓글 리스트 출력.
                 $.getJSON("/reviews/list/"+itemId, (arr) => {
 
                     makeReviewList(arr);
 
                 });
 
-                // $(".reviewCnt").on("click", () => {
-                //     $.getJSON("/reviews/list/"+itemId, (arr) => {
-
-                //         makeReviewList(arr);
-
-                //     });
-                // });
-
-                // $.getJSON("/reviews/list/"+itemId, (arr) => {
-
-                //     makeReviewList(arr);
-
-                // });
-
+                // 댓글 리스트 만드는 함수.
                 function makeReviewList(arr) {
                     
                     var str = "";
@@ -216,6 +248,7 @@
 
                 }
 
+                // 댓글 페이지 버튼.
                 $(".reviewList").on("click", ".page-link", () => {
 
                     var page = $(this).data("page");
@@ -228,7 +261,7 @@
 
                 });
                 
-                // 리뷰 추가 버튼 눌렀을 때.
+                // 댓글 추가 버튼 눌렀을 때.
                 $(".addReview").on("click", () => {
                     
                     modalCreate.modal("show");

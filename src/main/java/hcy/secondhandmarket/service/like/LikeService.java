@@ -37,6 +37,19 @@ public class LikeService {
 
     }
 
+    /** Item에 좋아요 개수 찾기. **/
+    public Long getLikeNum(Long itemId) {
+
+        log.info("Item id : {} 의 좋아요 개수 찾기", itemId);
+
+        Long result = likeRepository.findNumberOfLikeByItemId(itemId);
+
+        log.info("Item id : {} 의 좋아요 개수 : {}", itemId, result);
+
+        return result;
+
+    }
+
     private boolean isFirstLike(Member member, Item item) {
         return likeRepository.findByItemAndMember(item, member).isEmpty();
     }

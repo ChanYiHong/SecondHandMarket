@@ -7,10 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/likes")
@@ -36,6 +33,13 @@ public class LikeApiController {
 
         return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
+    }
+
+    /** Item에 좋아요 개수가 몇 개인지 화면에 출력 **/
+    @GetMapping("/{itemId}")
+    public ResponseEntity<Long> getLikeNumber(@PathVariable("itemId") Long itemId) {
+        Long result = likeService.getLikeNum(itemId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
