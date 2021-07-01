@@ -40,6 +40,9 @@ public interface ItemService {
     // 상품 검색.
     PageResponseDTO<Object[], ItemResponseDTO> getListBySearchCond(ItemSearch itemSearch, PageRequestDTO pageRequestDTO);
 
+    // 좋아요가 많은 상품 리스트 (메인 화면)
+    List<ItemResponseDTO> getListMostLike();
+
     // 아이템과, 아이템 이미지 같이 처리.
     default Map<String, Object> dtoToEntity(ItemSaveDTO itemSaveDto, Member member, EmdArea area, Category category) {
 

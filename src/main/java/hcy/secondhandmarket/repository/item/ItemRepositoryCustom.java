@@ -15,4 +15,6 @@ public interface ItemRepositoryCustom {
     /** Item title, 게시자 email로 Item 검색 **/
     Page<Object[]> findBySearchCond(ItemSearch itemSearch, Pageable pageable);
 
+    List<Object[]> findMostLikeItemList(Pageable pageable);
+
 }

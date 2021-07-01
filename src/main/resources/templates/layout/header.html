@@ -33,7 +33,7 @@
                     <a href="/members/login" class="btn btn-light">로그인</a>
                 </div>
                 <div sec:authorize="isAuthenticated()">
-                    <a th:href="@{/members/{email}}"><span sec:authentication="principal.name"></span></a>
+                    <a th:href="@{/members/{email}"><span sec:authentication="principal.name"></span></a>
                     <a href="/logout" class="btn btn-light">로그아웃</a>
                 </div>
                 <!-- <button type="button" class="btn btn-light">Login</button>

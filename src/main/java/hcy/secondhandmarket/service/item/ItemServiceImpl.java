@@ -17,16 +17,14 @@ import hcy.secondhandmarket.security.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -192,5 +190,26 @@ public class ItemServiceImpl implements ItemService{
 
         return new PageResponseDTO<>(fn, result);
 
+    }
+
+    @Override
+    public List<ItemResponseDTO> getListMostLike() {
+
+        Pageable pageable = PageRequest.of(0, 9);
+
+        List<Object[]> result = itemRepository.findMostLikeItemList(pageable);
+        List<ItemResponseDTO> ret = new ArrayList<>();
+
+        for (Object[] entity : result) {
+            ret.add(entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
+                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6], (Long) entity[7]));
+        }
+
+        // 좋아요 개수로 소팅..
+        Collections.sort(ret, (a, b) -> {
+            return Long.compare(b.getLikeCnt(), a.getLikeCnt());
+        });
+
+        return ret;
     }
 }

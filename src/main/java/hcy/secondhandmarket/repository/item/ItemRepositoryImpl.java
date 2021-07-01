@@ -110,6 +110,27 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
 
     }
 
+    @Override
+    public List<Object[]> findMostLikeItemList(Pageable pageable) {
+        QueryResults<Tuple> result = queryFactory
+                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea, like.count())
+                .from(item)
+                .leftJoin(item.category, category)
+                .leftJoin(item.member, member)
+                .leftJoin(itemImage).on(itemImage.item.eq(item))
+                .leftJoin(item.sellingArea, emdArea)
+                .leftJoin(emdArea.siggArea, siggArea)
+                .leftJoin(siggArea.sidoArea, sidoArea)
+                .leftJoin(like).on(like.item.eq(item))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        List<Tuple> content = result.getResults();
+        List<Object[]> collect = content.stream().map(Tuple::toArray).collect(Collectors.toList());
+        return collect;
+    }
+
     private BooleanExpression titleEq(String title) {
         log.info("찾는 이름 : {}",title);
         log.info("{}",StringUtils.hasText(title));
