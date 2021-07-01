@@ -17,6 +17,7 @@
                                         <div class="card-body">
                                             <p class="card-text">[[${item.title}]]</p>
                                             <p class="card-text">[[${item.email}]]</p>
+                                            <p class="card-text"><span class="heart">❤️</span> [[${item.likeCnt}]]</p>
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="btn-group">
                                                     <a th:href="@{/items/{id} (id=${item.id})}" class="btn btn-sm btn-outline-secondary">View</a>

@@ -80,7 +80,7 @@ public interface ItemService {
     }
 
     default ItemResponseDTO entityToDTO(Item item, Category category, Member member, List<ItemImage> imageList,
-                                        EmdArea emdArea, SiggArea siggArea, SidoArea sidoArea) {
+                                        EmdArea emdArea, SiggArea siggArea, SidoArea sidoArea, Long likeCnt) {
 
         List<ItemImageDTO> imageDTOList = imageList.stream().map(itemImage -> {
             return ItemImageDTO.builder()
@@ -105,6 +105,7 @@ public interface ItemService {
                 .description(item.getDescription())
                 .status(item.getStatus())
                 .createdTime(item.getCreatedTime())
+                .likeCnt(likeCnt)
                 .build();
 
         itemResponseDTO.setImageDTOList(imageDTOList);

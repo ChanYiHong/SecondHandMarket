@@ -30,7 +30,7 @@ public class ItemResponseDTO {
     private String sidoArea; // 시도 이름.
 
     /** 상품 정보. **/
-    private  Long id;
+    private Long id;
     private String title; // 상품명.
     private Integer sellPrice; // 상품 가격.
     private int viewCount; // 조회수.
@@ -38,6 +38,9 @@ public class ItemResponseDTO {
     private Status status; // 상품 상황. (새로움, 예약됨, 판매완료).
 
     private LocalDateTime createdTime; // 상품 만들어진 날짜.
+
+    /** 좋아요 개수. **/
+    private Long likeCnt;
 
     /** 상품 사진. **/
     @Builder.Default

@@ -26,6 +26,7 @@ import static hcy.secondhandmarket.domain.QCategory.category;
 import static hcy.secondhandmarket.domain.QEmdArea.emdArea;
 import static hcy.secondhandmarket.domain.QItem.item;
 import static hcy.secondhandmarket.domain.QItemImage.itemImage;
+import static hcy.secondhandmarket.domain.QLike.like;
 import static hcy.secondhandmarket.domain.QMember.member;
 import static hcy.secondhandmarket.domain.QSidoArea.sidoArea;
 import static hcy.secondhandmarket.domain.QSiggArea.siggArea;
@@ -39,7 +40,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     @Override
     public Object[] getItemById(Long itemId) {
         Tuple tuple = queryFactory
-                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea)
+                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea, like.count())
                 .from(item)
                 .leftJoin(item.category, category)
                 .leftJoin(item.member, member)
@@ -47,6 +48,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .leftJoin(itemImage).on(itemImage.item.eq(item))
                 .leftJoin(emdArea.siggArea, siggArea)
                 .leftJoin(siggArea.sidoArea, sidoArea)
+                .leftJoin(like).on(like.item.eq(item))
                 .where(item.id.eq(itemId))
                 .groupBy(item)
                 .fetchOne();
@@ -60,7 +62,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     public Page<Object[]> getItemList(Pageable pageable) {
 
         QueryResults<Tuple> result = queryFactory
-                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea)
+                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea, like.count())
                 .from(item)
                 .leftJoin(item.category, category)
                 .leftJoin(item.member, member)
@@ -68,6 +70,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .leftJoin(itemImage).on(itemImage.item.eq(item))
                 .leftJoin(emdArea.siggArea, siggArea)
                 .leftJoin(siggArea.sidoArea, sidoArea)
+                .leftJoin(like).on(like.item.eq(item))
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -83,7 +86,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
     @Override
     public Page<Object[]> findBySearchCond(ItemSearch itemSearch, Pageable pageable) {
         QueryResults<Tuple> result = queryFactory
-                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea)
+                .select(item, category, member, itemImage, emdArea, siggArea, sidoArea, like.count())
                 .from(item)
                 .leftJoin(item.category, category)
                 .leftJoin(item.member, member)
@@ -91,6 +94,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .leftJoin(item.sellingArea, emdArea)
                 .leftJoin(emdArea.siggArea, siggArea)
                 .leftJoin(siggArea.sidoArea, sidoArea)
+                .leftJoin(like).on(like.item.eq(item))
                 .where(
                         titleEq(itemSearch.getTitle())
                 )

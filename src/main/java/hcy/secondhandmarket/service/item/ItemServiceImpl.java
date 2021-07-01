@@ -87,7 +87,7 @@ public class ItemServiceImpl implements ItemService{
     public ItemResponseDTO getOne(Long itemId) {
         Object[] result = itemRepository.getItemById(itemId);
         return entityToDTO((Item) result[0], (Category) result[1], (Member) result[2], (List<ItemImage>) Arrays.asList((ItemImage)result[3]),
-                (EmdArea) result[4], (SiggArea) result[5], (SidoArea) result[6]);
+                (EmdArea) result[4], (SiggArea) result[5], (SidoArea) result[6], (Long) result[7]);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class ItemServiceImpl implements ItemService{
 
         Function<Object[], ItemResponseDTO> fn = entity -> {
             return entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
-                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
+                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6], (Long) entity[7]);
         };
 
         return new PageResponseDTO<>(fn, result);
@@ -187,7 +187,7 @@ public class ItemServiceImpl implements ItemService{
 
         Function<Object[], ItemResponseDTO> fn = entity -> {
             return entityToDTO((Item) entity[0], (Category) entity[1], (Member) entity[2], (List<ItemImage>) Arrays.asList((ItemImage)entity[3]),
-                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6]);
+                    (EmdArea) entity[4], (SiggArea) entity[5], (SidoArea) entity[6], (Long) entity[7]);
         };
 
         return new PageResponseDTO<>(fn, result);
