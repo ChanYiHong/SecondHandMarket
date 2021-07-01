@@ -19,26 +19,30 @@ public class LikeApiController {
 
     /** 좋아요 버튼 눌렀을 때. 세션은 나중에 좀 더 정교하게.. (로그인 안되있는 사용자면 팝업뜨던가..) **/
     @PostMapping("/{itemId}")
-    public ResponseEntity<String> addLike(@PathVariable("itemId") Long itemId,
+    public ResponseEntity<Boolean> addOrDeleteLike(@PathVariable("itemId") Long itemId,
                                           @AuthenticationPrincipal MemberDTO memberDTO) {
 
         log.info("Item id : {}", itemId);
         log.info("MemberDTO : {}", memberDTO);
 
-        boolean result = false;
+        boolean result = likeService.saveOrDeleteLike(memberDTO, itemId);
 
-        if(memberDTO != null) {
-            result = likeService.saveLike(memberDTO, itemId);
-        }
-
-        return result ? new ResponseEntity<>(HttpStatus.OK) : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(result, HttpStatus.OK);
 
     }
 
     /** Item에 좋아요 개수가 몇 개인지 화면에 출력 **/
-    @GetMapping("/{itemId}")
+    @GetMapping("/{itemId}/count")
     public ResponseEntity<Long> getLikeNumber(@PathVariable("itemId") Long itemId) {
         Long result = likeService.getLikeNum(itemId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    /** Item 화면 처음 나올 떄 좋아요가 눌려있는지 안 눌려있는지 확인..**/
+    @GetMapping("/{itemId}")
+    public ResponseEntity<Boolean> isLikeOrNot(@PathVariable("itemId") Long itemId,
+                                               @AuthenticationPrincipal MemberDTO memberDTO) {
+        boolean result = likeService.isLikeOrNot(memberDTO, itemId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
