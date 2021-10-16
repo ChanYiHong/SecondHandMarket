@@ -16,3 +16,7 @@ Spring Data JPA, Querydsl, HTML5, CSS, Javascript, Ajax, Socket, GitHub
 - Ajax 기술을 활용해 JSON API 구현 (좋아요, 댓글)
 - Querydsl을 통해 좋아요 많은 중고물품 띄우기 (동적 쿼리)
 - Controller, Service, Repository, DTO, Domain 패키지로 나누어 유지보수가 쉽게 설계
+
+<img width="628" alt="스크린샷 2021-10-17 오전 2 01 54" src="https://user-images.githubusercontent.com/33217033/137596017-c7554c46-37bb-4d3d-815c-88937cd36b00.png">
+
+
