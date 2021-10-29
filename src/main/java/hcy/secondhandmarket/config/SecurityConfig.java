@@ -66,7 +66,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable(); // CSRF 공격 방지 토큰 발행 비활성화.
 
-        http.logout().deleteCookies("JSESSIONID"); // logout 기능 활성화 (/logout)
+        http.logout()
+                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID"); // logout 기능 활성화 (/logout)
 
 //        http.addFilterBefore(apiCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 

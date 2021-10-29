@@ -153,33 +153,33 @@ class ItemServiceTest {
     @Rollback
     public void itemListTest() throws Exception {
 
-        ItemSaveDTO itemDto = ItemSaveDTO.builder()
-                .title("애웅이")
-                .sellPrice(1000000)
-                .categoryId(1L)
-                .description("웅아가 좋아하는 인형입니다.")
-                .sellingAreaId(1L)
-                .build();
-
-        ItemSaveDTO itemDto2 = ItemSaveDTO.builder()
-                .title("웅아쪼아")
-                .sellPrice(2000000)
-                .categoryId(1L)
-                .description("알러븅")
-                .sellingAreaId(1L)
-                .build();
-
-
-        MemberSaveDTO memberSaveDTO = MemberSaveDTO.builder()
-                .email("user1").password("1234").name("hcy").phoneNumber("010").build();
-
-        memberService.join(memberSaveDTO);
-
-        MemberDTO memberDTO = (MemberDTO) memberDetailsService.loadUserByUsername("user1");
+//        ItemSaveDTO itemDto = ItemSaveDTO.builder()
+//                .title("애웅이")
+//                .sellPrice(1000000)
+//                .categoryId(1L)
+//                .description("웅아가 좋아하는 인형입니다.")
+//                .sellingAreaId(1L)
+//                .build();
+//
+//        ItemSaveDTO itemDto2 = ItemSaveDTO.builder()
+//                .title("웅아쪼아")
+//                .sellPrice(2000000)
+//                .categoryId(1L)
+//                .description("알러븅")
+//                .sellingAreaId(1L)
+//                .build();
 
 
-        itemService.save(itemDto, memberDTO);
-        itemService.save(itemDto2, memberDTO);
+//        MemberSaveDTO memberSaveDTO = MemberSaveDTO.builder()
+//                .email("user1").password("1234").name("hcy").phoneNumber("010").build();
+//
+//        memberService.join(memberSaveDTO);
+//
+//        MemberDTO memberDTO = (MemberDTO) memberDetailsService.loadUserByUsername("user1");
+//
+//
+//        itemService.save(itemDto, memberDTO);
+//        itemService.save(itemDto2, memberDTO);
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("id").ascending());
 

@@ -72,6 +72,7 @@ public class ItemRepositoryImpl implements ItemRepositoryCustom{
                 .leftJoin(siggArea.sidoArea, sidoArea)
                 .leftJoin(like).on(like.item.eq(item))
                 .orderBy(getOrderSpecifier(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
+                .groupBy(item)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetchResults();

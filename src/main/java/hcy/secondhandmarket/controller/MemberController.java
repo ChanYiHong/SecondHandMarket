@@ -13,6 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @Slf4j
 @RequestMapping("/members")
@@ -20,6 +23,11 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberService memberService;
+
+    @ModelAttribute("memberDTO")
+    public MemberDTO setMemberDTO(@AuthenticationPrincipal MemberDTO memberDTO) {
+        return memberDTO;
+    }
 
     @GetMapping("/login")
     public String loginPage() {
@@ -60,5 +68,16 @@ public class MemberController {
         return "/members/info";
 
     }
+
+//    @GetMapping("/logout")
+//    public String logout(HttpServletRequest request) {
+//        HttpSession session = request.getSession(false);
+//
+//        if (session != null) {
+//            session.invalidate();
+//        }
+//
+//        return "redirect:/";
+//    }
 
 }

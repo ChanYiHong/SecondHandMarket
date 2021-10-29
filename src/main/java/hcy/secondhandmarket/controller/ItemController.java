@@ -39,19 +39,25 @@ public class ItemController {
     private final ItemService itemService;
     private final CategoryService categoryService;
 
+    @ModelAttribute("memberDTO")
+    public MemberDTO memberResponseDTO(@AuthenticationPrincipal MemberDTO memberDTO) {
+        return memberDTO;
+    }
+
     // Item 생성. 카테고리, 지역정보를 선택할 수 있고, 사용자 정보는 자동으로 들어가도록 한다.
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/new")
-    public String createItem(Model model, @AuthenticationPrincipal MemberDTO memberDTO) {
+    public String createItem(Model model) {
         List<CategoryResponseDTO> categories = categoryService.findAll();
 
-        model.addAttribute("memberDTO", memberDTO);
+//        model.addAttribute("memberDTO", memberDTO);
         model.addAttribute("categories", categories);
         model.addAttribute("itemSaveDTO", new ItemSaveDTO());
 
         return "/items/new";
     }
 
+    /** Item 새로 생성 : POST **/
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/new")
     public String saveItem(@Validated @ModelAttribute ItemSaveDTO itemSaveDTO, BindingResult bindingResult,
@@ -72,6 +78,7 @@ public class ItemController {
 
     }
 
+    /** 최초 item 목록 화면 **/
     @PreAuthorize("permitAll()")
     @GetMapping
     public String itemList(@ModelAttribute PageRequestDTO pageRequestDTO, Model model) {

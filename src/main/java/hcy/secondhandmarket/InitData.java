@@ -54,12 +54,18 @@ public class InitData {
 
         @Transactional
         public void initCategory() {
-            em.persist(new Category("전자기기"));
-            em.persist(new Category("컴퓨터"));
-            em.persist(new Category("인형"));
-            em.persist(new Category("주방도구"));
-            em.persist(new Category("차량"));
-            em.persist(new Category("캠핑"));
+//            em.persist(new Category("전자기기"));
+//            em.persist(new Category("컴퓨터"));
+//            em.persist(new Category("인형"));
+//            em.persist(new Category("주방도구"));
+//            em.persist(new Category("차량"));
+//            em.persist(new Category("캠핑"));
+            em.persist(new Category("가구"));
+            em.persist(new Category("운동기구"));
+            em.persist(new Category("서적"));
+            em.persist(new Category("의류"));
+            em.persist(new Category("신발"));
+            em.persist(new Category("스마트폰"));
             em.persist(new Category("기타"));
         }
 

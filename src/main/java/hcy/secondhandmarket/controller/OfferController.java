@@ -26,6 +26,11 @@ public class OfferController {
     private final OfferService offerService;
     private final ItemService itemService;
 
+    @ModelAttribute("memberDTO")
+    public MemberDTO memberResponseDTO(@AuthenticationPrincipal MemberDTO memberDTO) {
+        return memberDTO;
+    }
+
     // 해당 아이템에 요청된 내역..
     @GetMapping("/{itemId}")
     public String offerList(@PathVariable("itemId") Long itemId

@@ -108,4 +108,33 @@ class ItemRepositoryTest {
 
     }
 
+    @Test
+    @Transactional
+    void findItemListQueryTest(){
+
+        List<Item> result = em.createQuery("select i from Item i", Item.class)
+                .getResultList();
+
+        for (Item item : result) {
+            System.out.println(item);
+        }
+
+    }
+
+    @Test
+    @Transactional
+    void findListTest(){
+
+        PageRequestDTO page = PageRequestDTO.builder()
+                .page(1)
+                .size(10)
+                .build();
+        Page<Object[]> result = itemRepository.getItemList(page.getPageable(Sort.by("id")));
+
+        List<Object[]> content = result.getContent();
+
+        System.out.println(content.size());
+
+    }
+
 }
