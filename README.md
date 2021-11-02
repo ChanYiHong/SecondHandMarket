@@ -13,7 +13,7 @@ Spring Data JPA, Querydsl, HTML5, CSS, Javascript, Ajax, Socket, GitHub
 
 - Socket Programming을 통해 자유 채팅방 구현
 - 판매자와 구매자의 채팅방은 배포 이후 정확한 테스트가 필요한 상황
-- Ajax 기술을 활용해 JSON API 구현 (좋아요, 댓글)
+- Ajax 기술을 활용해 restAPI 구현 (좋아요, 댓글)
 - Querydsl을 통해 좋아요 많은 중고물품 띄우기 (동적 쿼리)
 - Controller, Service, Repository, DTO, Domain 패키지로 나누어 유지보수가 쉽게 설계
 
